@@ -1,5 +1,5 @@
-# bsValidate
-The bsValidate jQuery Plugin provides basic validation of Bootstrap (v3) forms. Current validation capabilities include:
+# Bootstrap Form Validation with jQuery
+bsValidate is a lightweight jQuery Plugin that provides basic validation of Twitter Bootstrap (v3) forms. Current validation capabilities include:
 + Required fields
 + Email formatting
 + Character limit
