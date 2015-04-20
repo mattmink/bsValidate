@@ -157,7 +157,7 @@
         helpText.remove();
     }
     function addAlert(target, message, styleClass){
-        if($('.'+styleClass).length < 1){
+        if(target.find('.'+styleClass).length < 1){
             var alert = $('<div class="alert alert-danger ' +styleClass+ '">'+message+'</div>');
             target.prepend(alert);
         }
