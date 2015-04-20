@@ -15,7 +15,6 @@ $(function(){
       }
     }
     lines = lines.map(function(line) {
-      console.log(line);
       return line.substring(line1Indent[0].length - indent, line.length);
     });
     $(this).text(lines.join('\n'));

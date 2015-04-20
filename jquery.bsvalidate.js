@@ -49,7 +49,7 @@
                         errCnt += toggleHelpText($(this).isBlank(bsv), fields[key].required.helpText, formGroup, styleClass);
                     }
                     if(typeof fields[key].email !== "undefined"){
-                        styleClass = 'hevlp-email';
+                        styleClass = 'help-email';
                         errCnt += toggleHelpText(!isValidEmail(v) && v !== "", fields[key].email.helpText, formGroup, styleClass);
                     }
                     if(typeof fields[key].characters !== "undefined"){
@@ -70,16 +70,17 @@
                     var formGroup = fields[key].el.parents('.form-group');
                     var errCnt = 0;
                     var v = fields[key].el.val();
+                    var styleKey = key.replace(/[^a-zA-Z\d-]/g, '-');
                     if(typeof fields[key].required !== "undefined"){
-                        styleClass = 'alert-'+key+'-required';
+                        styleClass = 'alert-'+styleKey+'-required';
                         errCnt += toggleAlert(fields[key].el.isBlank(bsv), fields[key].required.alert, bsv.settings.alertTarget, styleClass);
                     }
                     if(typeof fields[key].email !== "undefined"){
-                        styleClass = 'alert-'+key+'-email';
+                        styleClass = 'alert-'+styleKey+'-email';
                         errCnt += toggleAlert(!isValidEmail(v) && !fields[key].el.isBlank(bsv), fields[key].email.alert, bsv.settings.alertTarget, styleClass);
                     }
                     if(typeof fields[key].characters !== "undefined"){
-                        styleClass = 'alert-'+key+'-characters';
+                        styleClass = 'alert-'+styleKey+'-characters';
                         errCnt += toggleAlert(v.length > fields[key].characters.limit, fields[key].characters.alert, bsv.settings.alertTarget, styleClass);
                     }
                     if(errCnt > 0){
