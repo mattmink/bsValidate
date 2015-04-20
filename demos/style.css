@@ -1,0 +1,23 @@
+.section {
+  border-top: 1px solid #ccc;
+  padding: 2em 0 4em;
+}
+.section.first{
+  border-top: 0 none;
+}
+.tab-content {
+    padding: 2em;
+    border: 1px solid #ddd;
+    border-top: 0 none;
+    margin-top: -1px;
+}
+
+code.hljs {
+    border-radius: 0;
+}
+
+pre {
+    padding: 0;
+    margin: 0;
+    border: 0 none;
+}
