@@ -17,6 +17,7 @@
         mergeAlerts: false,
         alertMessage: null,
         blankSelectValue: "",
+        novalidate: true,
         success: function(){},
         fail: function(e){e.preventDefault();}
     };
@@ -28,6 +29,11 @@
             var form = $(bsv.element);
             var required = form.find(bsv.settings.requiredSelector);
             var fields = bsv.settings.fields;
+            var novalidate = form.attr('novalidate');
+
+            if(typeof novalidate === 'undefined' && bsv.settings.novalidate){
+                form.attr('novalidate', '');
+            }
 
             required.each(function(){
                 var name = $(this).attr('name');
