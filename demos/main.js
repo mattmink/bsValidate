@@ -43,6 +43,13 @@ $(function(){
           helpText: "Please enter your email.",
           alert: "You are required to enter your email."
         }
+      },
+      website: {
+        regex: {
+          pattern: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/g,
+          alert: "Please enter an actual website address.",
+          regex: "This doesn't look like a real URL"
+        }
       }
     },
     success: function(e){

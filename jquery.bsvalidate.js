@@ -83,6 +83,11 @@
                         errCnt += (bsv.settings.mergeAlerts) ? v.length > fields[key].characters.limit | 0 : toggleAlert(v.length > fields[key].characters.limit, fields[key].characters.alert, bsv.settings.alertTarget, styleClass);
                         alertMessage += (isList) ? '<li>'+fields[key].characters.alert+'</li>' : '';
                     }
+                    if(typeof fields[key].regex !== "undefined"){
+                        styleClass = 'alert-'+styleKey+'-regex';
+                        errCnt += (bsv.settings.mergeAlerts) ? !regexTest(fields[key].regex.pattern, v) && !fields[key].el.isBlank(bsv) | 0 : toggleAlert(!regexTest(fields[key].regex.pattern, v) && !fields[key].el.isBlank(bsv), fields[key].regex.alert, bsv.settings.alertTarget, styleClass);
+                        alertMessage += (isList) ? '<li>'+fields[key].characters.alert+'</li>' : '';
+                    }
                     if(errCnt > 0){
                         formGroup.addClass('has-error');
                         isValid = false;
@@ -223,11 +228,19 @@
             styleClass = 'help-characters';
             errCnt += toggleHelpText(v.length > fields[key].characters.limit, fields[key].characters.helpText, formGroup, styleClass);
         }
+        if(typeof fields[key].regex !== "undefined"){
+            styleClass = 'help-regex';
+            errCnt += toggleHelpText(!regexTest(fields[key].regex.pattern, v) && !el.isBlank(bsv), fields[key].regex.helpText, formGroup, styleClass);
+        }
         if(errCnt > 0){
             formGroup.addClass('has-error');
         }else{
             formGroup.removeClass('has-error');
         }
+    }
+
+    function regexTest(regex, value){
+        return regex.test(value);
     }
 
     function isValidEmail(email){
