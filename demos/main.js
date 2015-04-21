@@ -1,4 +1,5 @@
 $(function(){
+  // Fix line indenting in code snippets
   $('pre code').each(function() {
     var lines = $(this).text().split('\n');
     var indent = 2;
@@ -19,6 +20,7 @@ $(function(){
     });
     $(this).text(lines.join('\n'));
   });
+  
   // Basic Example
   $('#simpleForm').bsValidate({
     success: function(e){
