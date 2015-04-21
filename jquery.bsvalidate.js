@@ -14,6 +14,8 @@
     defaults = {
         requiredSelector: "input.required:not(:checkbox),textarea.required,select.required,[required]",
         fields: {},
+        mergeAlerts: false,
+        alertMessage: null,
         blankSelectValue: "",
         success: function(){},
         fail: function(e){e.preventDefault();}
@@ -46,7 +48,14 @@
                 fields[key].el.on('change', {bsv:bsv, fields:fields, key:key, value:value} , bsvFieldChange);
             });
             form.submit(function(e){
+                e.preventDefault();
                 var isValid = true;
+                var alertMessage = (bsv.settings.mergeAlerts) ? bsv.settings.alertMessage : '';
+                var isList = false;
+                if(alertMessage === null){
+                    alertMessage = '<ul>';
+                    isList = true;
+                }
                 $.each( fields, function( key, value ) {
                     var styleClass;
                     var formGroup = fields[key].el.parents('.form-group');
@@ -55,15 +64,18 @@
                     var styleKey = key.replace(/[^a-zA-Z\d-]/g, '-');
                     if(typeof fields[key].required !== "undefined"){
                         styleClass = 'alert-'+styleKey+'-required';
-                        errCnt += toggleAlert(fields[key].el.isBlank(bsv), fields[key].required.alert, bsv.settings.alertTarget, styleClass);
+                        errCnt += (bsv.settings.mergeAlerts) ? fields[key].el.isBlank(bsv) | 0 : toggleAlert(fields[key].el.isBlank(bsv), fields[key].required.alert, bsv.settings.alertTarget, styleClass);
+                        alertMessage += (isList) ? '<li>'+fields[key].required.alert+'</li>' : '';
                     }
                     if(typeof fields[key].email !== "undefined"){
                         styleClass = 'alert-'+styleKey+'-email';
-                        errCnt += toggleAlert(!isValidEmail(v) && !fields[key].el.isBlank(bsv), fields[key].email.alert, bsv.settings.alertTarget, styleClass);
+                        errCnt += (bsv.settings.mergeAlerts) ? !isValidEmail(v) && !fields[key].el.isBlank(bsv) | 0 : toggleAlert(!isValidEmail(v) && !fields[key].el.isBlank(bsv), fields[key].email.alert, bsv.settings.alertTarget, styleClass);
+                        alertMessage += (isList) ? '<li>'+fields[key].email.alert+'</li>' : '';
                     }
                     if(typeof fields[key].characters !== "undefined"){
                         styleClass = 'alert-'+styleKey+'-characters';
-                        errCnt += toggleAlert(v.length > fields[key].characters.limit, fields[key].characters.alert, bsv.settings.alertTarget, styleClass);
+                        errCnt += (bsv.settings.mergeAlerts) ? v.length > fields[key].characters.limit | 0 : toggleAlert(v.length > fields[key].characters.limit, fields[key].characters.alert, bsv.settings.alertTarget, styleClass);
+                        alertMessage += (isList) ? '<li>'+fields[key].characters.alert+'</li>' : '';
                     }
                     if(errCnt > 0){
                         formGroup.addClass('has-error');
@@ -72,6 +84,7 @@
                         formGroup.removeClass('has-error');
                     }
                 });
+                toggleAlert(!isValid && bsv.settings.mergeAlerts, alertMessage, bsv.settings.alertTarget, 'bsv-alert');
                 if(isValid){
                     bsv.settings.success(e);
                 }else{
