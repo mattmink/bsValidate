@@ -22,7 +22,7 @@ After your reference to jQuery, add a reference to the `jquery.bsvalidate.min.js
 ```
 
 ## Basic Use
-The basic use of the plugin is intended to enforce required fields only. Required fields are indidcated with the `.required` class, or the `[required]` attribute. 
+The basic use of the plugin is intended to enforce required fields only. Required fields are indicated with the `.required` class, or the `[required]` attribute. 
 
 HTML
 ```html
@@ -53,8 +53,6 @@ JavaScript
 ```javascript
   $('#theForm').bsValidate();
 ```
-
-_**Note:** using the `[required]` attribute to indicate a field as being required could cause the browser's validation to override the behavior of the plugin. if this occurs, add the `.required` class to the element instead_
 
 ## Advanced Use
 Alternatively, a `fields` object can be specified in place of (or in addition to) element attributes to list the fields that should be validated, along with the validation requirements. The `[name]` attribute is used as the key name for each field.
@@ -173,7 +171,7 @@ $('#theForm').bsValidate({
   regex: {
     pattern: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/g,
     helpText: "This example checks for a URL.",
-    alert: "But you can put any valud regex pattern here"
+    alert: "But you can put any valid regex pattern here"
   }
 }
 ```
