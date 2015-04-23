@@ -47,8 +47,8 @@ $(function(){
       website: {
         regex: {
           pattern: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/g,
-          alert: "Please enter an actual website address.",
-          regex: "This doesn't look like a real URL"
+          helpText: "This doesn't look like a real URL",
+          alert: "Please enter an actual website address."
         }
       }
     },
