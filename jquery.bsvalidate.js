@@ -88,6 +88,12 @@
                         errCnt += (bsv.settings.mergeAlerts) ? !regexMatch(fields[key].regex.pattern, v) && !fields[key].el.isBlank(bsv) | 0 : toggleAlert(!regexMatch(fields[key].regex.pattern, v) && !fields[key].el.isBlank(bsv), fields[key].regex.alert, bsv.settings.alertTarget, styleClass);
                         alertMessage += (isList) ? '<li>'+fields[key].regex.alert+'</li>' : '';
                     }
+                    if(typeof fields[key].match !== "undefined"){
+                        styleClass = 'alert-'+styleKey+'-match';
+                        var matchFieldValue = form.find('[name="'+fields[key].match.field+'"]').val();
+                        errCnt += (bsv.settings.mergeAlerts) ? matchFieldValue !== v && !fields[key].el.isBlank(bsv) | 0 : toggleAlert(matchFieldValue !== v && !fields[key].el.isBlank(bsv), fields[key].match.alert, bsv.settings.alertTarget, styleClass);
+                        alertMessage += (isList) ? '<li>'+fields[key].regex.alert+'</li>' : '';
+                    }
                     if(errCnt > 0){
                         formGroup.addClass('has-error');
                         isValid = false;
@@ -208,8 +214,9 @@
 
     function bsvFieldChange(event){
         var data = event.data;
-        var el = $(event.target);
         var bsv = data.bsv;
+        var form = $(bsv.element);
+        var el = $(event.target);
         var fields = data.fields;
         var key = data.key;
         var formGroup = el.parents('.form-group');
@@ -231,6 +238,11 @@
         if(typeof fields[key].regex !== "undefined"){
             styleClass = 'help-regex';
             errCnt += toggleHelpText(!regexMatch(fields[key].regex.pattern, v) && !el.isBlank(bsv), fields[key].regex.helpText, formGroup, styleClass);
+        }
+        if(typeof fields[key].match !== "undefined"){
+            styleClass = 'help-match';
+            var matchFieldValue = form.find('[name="'+fields[key].match.field+'"]').val();
+            errCnt += toggleHelpText(matchFieldValue !== v && !el.isBlank(bsv), fields[key].match.helpText, formGroup, styleClass);
         }
         if(errCnt > 0){
             formGroup.addClass('has-error');

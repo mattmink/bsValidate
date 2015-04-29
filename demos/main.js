@@ -20,7 +20,7 @@ $(function(){
     });
     $(this).text(lines.join('\n'));
   });
-  
+
   // Basic Example
   $('#simpleForm').bsValidate({
     success: function(e){
@@ -42,6 +42,17 @@ $(function(){
         required: {
           helpText: "Please enter your email.",
           alert: "You are required to enter your email."
+        }
+      },
+      emailConfirm: {
+        required: {
+          helpText: "Please confirm your email.",
+          alert: "You are required to confirm your email."
+        },
+        match: {
+          field: "email",
+          helpText: "Oops. That doesn't match!",
+          alert: "It doesn't look like the two email addresses match."
         }
       },
       website: {
