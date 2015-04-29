@@ -3,6 +3,7 @@ bsValidate is a lightweight jQuery Plugin that provides basic validation of Twit
 + Required fields
 + Email formatting
 + Character limit
++ Compare two fields
 + Regular Expression
 
 I plan to build on this list and offer more validation options in the future, so stay tuned!
@@ -172,6 +173,12 @@ $('#theForm').bsValidate({
     pattern: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/g,
     helpText: "This example checks for a URL.",
     alert: "But you can put any valid regex pattern here"
+  },
+  // Compare the field value against the value of another field
+  match: {
+    field: "fieldName",
+    helpText: "Use the [name] attribute of the field we're checking against.",
+    alert: "This compares the literal string values of the two fields. So '0.1' and '.10' do not match and will not validate."
   }
 }
 ```
