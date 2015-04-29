@@ -10,7 +10,7 @@
     "use strict";
 
     var bsValidate = "bsValidate",
-    
+
     defaults = {
         requiredSelector: "input.required:not(:checkbox),textarea.required,select.required,[required]",
         fields: {},
@@ -21,7 +21,7 @@
         success: function(){},
         fail: function(e){e.preventDefault();}
     };
-        
+
     $.extend(Plugin.prototype, {
 
         init: function () {
@@ -85,8 +85,8 @@
                     }
                     if(typeof fields[key].regex !== "undefined"){
                         styleClass = 'alert-'+styleKey+'-regex';
-                        errCnt += (bsv.settings.mergeAlerts) ? !regexTest(fields[key].regex.pattern, v) && !fields[key].el.isBlank(bsv) | 0 : toggleAlert(!regexTest(fields[key].regex.pattern, v) && !fields[key].el.isBlank(bsv), fields[key].regex.alert, bsv.settings.alertTarget, styleClass);
-                        alertMessage += (isList) ? '<li>'+fields[key].characters.alert+'</li>' : '';
+                        errCnt += (bsv.settings.mergeAlerts) ? !regexMatch(fields[key].regex.pattern, v) && !fields[key].el.isBlank(bsv) | 0 : toggleAlert(!regexMatch(fields[key].regex.pattern, v) && !fields[key].el.isBlank(bsv), fields[key].regex.alert, bsv.settings.alertTarget, styleClass);
+                        alertMessage += (isList) ? '<li>'+fields[key].regex.alert+'</li>' : '';
                     }
                     if(errCnt > 0){
                         formGroup.addClass('has-error');
@@ -167,7 +167,7 @@
         }
         return 0;
     }
-    
+
     function toggleAlert(test, alertText, alertTarget, styleClass){
         if(test){
             if(typeof alertText !== "undefined"){
@@ -181,7 +181,7 @@
         }
         return 0;
     }
-    
+
     function addHelpText(formGroup, message, styleClass){
         if(formGroup.find('.'+styleClass).length < 1){
             var helpText = $('<span class="help-block '+styleClass+'">'+message+'</span>');
@@ -230,7 +230,7 @@
         }
         if(typeof fields[key].regex !== "undefined"){
             styleClass = 'help-regex';
-            errCnt += toggleHelpText(!regexTest(fields[key].regex.pattern, v) && !el.isBlank(bsv), fields[key].regex.helpText, formGroup, styleClass);
+            errCnt += toggleHelpText(!regexMatch(fields[key].regex.pattern, v) && !el.isBlank(bsv), fields[key].regex.helpText, formGroup, styleClass);
         }
         if(errCnt > 0){
             formGroup.addClass('has-error');
@@ -239,8 +239,8 @@
         }
     }
 
-    function regexTest(regex, value){
-        return regex.test(value);
+    function regexMatch(regex, value){
+        return value.match(regex);
     }
 
     function isValidEmail(email){
