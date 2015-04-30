@@ -1,0 +1,29 @@
+{
+  "name": "bsvalidate",
+  "version": "0.6.0",
+  "homepage": "https://github.com/matthewjmink/bsValidate",
+  "authors": [
+    "Matt Mink <matthewjmink@gmail.com>"
+  ],
+  "description": "jQuery Plugin for validation of Bootstrap (v3) forms",
+  "main": "jquery.bsvalidate.min.js",
+  "keywords": [
+    "jquery",
+    "bootstrap",
+    "form",
+    "validation",
+    "plugin"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery-legacy": "jquery#^1",
+    "bootstrap": "~3.3.4"
+  }
+}
