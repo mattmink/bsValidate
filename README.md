@@ -9,20 +9,31 @@ bsValidate is a lightweight jQuery Plugin that provides basic validation of Twit
 I plan to build on this list and offer more validation options in the future, so stay tuned!
 
 ## Prerequisites
-### JS
+#### JS
 + jQuery (minimum version requirement pending...)
 
-### CSS
+#### CSS
 + Bootstrap (not a requirement if you plan to include your own styles that use the same classes)
 
 ## Installation
+#### With Bower
+```
+bower install bsvalidate
+```
+#### With Git
+```
+git clone https://github.com/matthewjmink/bsValidate.git
+```
+
+## Use
+
 After your reference to jQuery, add a reference to the `jquery.bsvalidate.min.js` file within your project:
 ```html
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
   <script src="/path/to/js/jquery.bsvalidate.min.js"></script>
 ```
 
-## Basic Use
+#### Basic Use
 The basic use of the plugin is intended to enforce required fields only. Required fields are indicated with the `.required` class, or the `[required]` attribute. 
 
 HTML
@@ -55,7 +66,7 @@ JavaScript
   $('#theForm').bsValidate();
 ```
 
-## Advanced Use
+#### Advanced Use
 Alternatively, a `fields` object can be specified in place of (or in addition to) element attributes to list the fields that should be validated, along with the validation requirements. The `[name]` attribute is used as the key name for each field.
 
 HTML
