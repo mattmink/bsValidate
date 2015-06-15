@@ -51,7 +51,11 @@
                 if(typeof fields[key].el !== "object" || typeof fields[key].el.jquery === "undefined"){
                     fields[key].el = form.find('[name="'+key+'"]');
                 }
-                fields[key].el.on('change', {bsv:bsv, fields:fields, key:key, value:value} , bsvFieldChange);
+                if(fields[key].el.length > 0){
+                    fields[key].el.on('change', {bsv:bsv, fields:fields, key:key, value:value} , bsvFieldChange);
+                }else{
+                    delete fields[key];
+                }
             });
             form.submit(function(e){
                 e.preventDefault();

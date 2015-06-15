@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <title>bsValidate jQuery Plugin Demos</title>
+
+    <link rel="stylesheet" type="text/css" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="highlight/default.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+  </head>
+  <body>
+    <div class="container">
+      <h1>No Inputs Example</h1>
+      <form id="customMessagesForm" action="success.html" method="post" class="well">
+        <p>This form has no fields...</p>
+        <div class="form-group">
+          <input type="submit" class="btn btn-primary" value="Submit" />
+        </div>
+      </form>
+
+    </div><!-- .container -->
+
+    <script src="highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="../bower_components/jquery-legacy/dist/jquery.min.js"></script>
+    <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../jquery.bsvalidate.js"></script>
+    <script>
+    $(function(){
+        // Custom Messages
+          $('#customMessagesForm').bsValidate({
+            fields:{
+              name: {
+                required: {
+                  helpText: "Please enter your name.",
+                  alert: "You are required to enter your name."
+                }
+              },
+            },
+            success: function(e){
+              e.preventDefault();
+              alert('Success!');
+            }
+          });
+    });
+    </script>
+
+  </body>
+</html>
