@@ -39,7 +39,6 @@
                 var name = $(this).attr('name');
                 if(typeof fields[name] === "undefined" || typeof fields[name].required === "undefined"){
                     var formGroup = $(this).parents('.form-group');
-                    console.log(formGroup);
                     var label = formGroup.find('.label,label').text();
                     fields[name] = (typeof fields[name] === "undefined") ? {} : fields[name];
                     fields[name].el = $(this);
@@ -146,6 +145,9 @@
 
     $.fn.isBlank = function ( bsv ) {
         var val = this.val();
+        if(this.is(':checkbox') && !this.is(':checked')){
+            return true;
+        }
         return (val === "" || val === null || val.length < 1 || (this[0].nodeName.toLowerCase() === 'select' && val == bsv.settings.blankSelectValue));
     };
 
