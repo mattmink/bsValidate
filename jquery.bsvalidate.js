@@ -12,7 +12,7 @@
     var bsValidate = "bsValidate",
 
     defaults = {
-        requiredSelector: "input.required:not(:checkbox),textarea.required,select.required,[required]",
+        requiredSelector: "input.required,textarea.required,select.required,[required]",
         fields: {},
         mergeAlerts: false,
         alertMessage: null,
@@ -39,6 +39,7 @@
                 var name = $(this).attr('name');
                 if(typeof fields[name] === "undefined" || typeof fields[name].required === "undefined"){
                     var formGroup = $(this).parents('.form-group');
+                    console.log(formGroup);
                     var label = formGroup.find('.label,label').text();
                     fields[name] = (typeof fields[name] === "undefined") ? {} : fields[name];
                     fields[name].el = $(this);
@@ -47,6 +48,7 @@
                     };
                 }
             });
+
             $.each( fields, function( key, value ) {
                 if(typeof fields[key].el !== "object" || typeof fields[key].el.jquery === "undefined"){
                     fields[key].el = form.find('[name="'+key+'"]');
@@ -57,6 +59,7 @@
                     delete fields[key];
                 }
             });
+
             form.submit(function(e){
                 e.preventDefault();
                 var isValid = true;
