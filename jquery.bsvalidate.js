@@ -18,6 +18,7 @@
         alertMessage: null,
         blankSelectValue: "",
         novalidate: true,
+        before: function(){},
         success: function(){},
         fail: function(e){e.preventDefault();}
     };
@@ -61,6 +62,7 @@
 
             form.submit(function(e){
                 e.preventDefault();
+                bsv.settings.before();
                 var isValid = true;
                 var alertMessage = (bsv.settings.mergeAlerts) ? bsv.settings.alertMessage : '';
                 var isList = false;
