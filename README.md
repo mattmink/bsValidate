@@ -148,7 +148,12 @@ $('#theForm').bsValidate({
   // DEFAULT: false (BOOLEAN)
   novalidate: true,
 
-  // Callback function that fires after all fields pass validation, but before the form submits.
+  // Callback function that fires after form submission, but before any validation takes place.
+  // Could be used to clear out existing error message from server-side validation prior to displaying bsValidate messages.
+  // DEFAULT: function(){} (FUNCTION)
+  before: function(){},
+
+// Callback function that fires after all fields pass validation, but before the form submits.
   // In case you want to submit your form with JavaScript (Ajax) or run more JavaScript before submitting,
   // an event parameter is passed to the function, and event.preventDefault() can be used.
   // DEFAULT: function(e){} (FUNCTION)
