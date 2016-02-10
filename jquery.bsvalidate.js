@@ -77,8 +77,17 @@
                     var v = fields[key].el.val();
                     var styleKey = key.replace(/[^a-zA-Z\d-]/g, '-');
                     if(typeof fields[key].required !== "undefined"){
+                        var requiredTest = fields[key].el.isBlank(bsv);
                         styleClass = 'alert-'+styleKey+'-required';
-                        errCnt += (bsv.settings.mergeAlerts) ? fields[key].el.isBlank(bsv) | 0 : toggleAlert(fields[key].el.isBlank(bsv), fields[key].required.alert, bsv.settings.alertTarget, styleClass);
+                        if(fields[key].required.dependency){
+                            if(fields[key].required.dependency.isBlank){
+                                requiredTest = requiredTest && fieldGroupIsBlank(fields, fields[key].required.dependency.isBlank);
+                            }
+                            if(fields[key].required.dependency.isNotBlank){
+                                requiredTest = requiredTest && fieldGroupIsNotBlank(fields, fields[key].required.dependency.isNotBlank);
+                            }
+                        }
+                        errCnt += (bsv.settings.mergeAlerts) ? requiredTest | 0 : toggleAlert(requiredTest, fields[key].required.alert, bsv.settings.alertTarget, styleClass);
                         alertMessage += (isList) ? '<li>'+fields[key].required.alert+'</li>' : '';
                     }
                     if(typeof fields[key].email !== "undefined"){
@@ -147,8 +156,8 @@
 
     $.fn.isBlank = function ( bsv ) {
         var val = this.val();
-        if(this.is(':checkbox') && !this.is(':checked')){
-            return true;
+        if(this.is(':checkbox')){
+            return !this.is(':checked');
         }
         return (val === "" || val === null || val.length < 1 || (this[0].nodeName.toLowerCase() === 'select' && val == bsv.settings.blankSelectValue));
     };
@@ -169,6 +178,35 @@
         this._defaults = defaults;
         this._name = bsValidate;
         this.init();
+    }
+
+    function fieldGroupIsBlank(fields, dependencies){
+        var blankCount = 0;
+        if(typeof dependencies === 'string') {
+            dependencies = dependencies.split(',');
+        }
+        for (var i = 0; i < dependencies.length; i++) {
+            if(fields[dependencies[i]].el.isBlank()){
+                blankCount++;
+            }
+        }
+        return blankCount === dependencies.length;
+    }
+
+    function fieldGroupIsNotBlank(fields, dependencies){
+        var filledCount = 0;
+        if(typeof dependencies === 'string') {
+            dependencies = dependencies.split(',');
+        }
+        console.log(fields);
+        console.log(dependencies);
+        for (var i = 0; i < dependencies.length; i++) {
+            if(!fields[dependencies[i]].el.isBlank()){
+                filledCount++;
+                console.log(filledCount);
+            }
+        }
+        return filledCount === dependencies.length;
     }
 
     function toggleHelpText(test, helpText, formGroup, styleClass){

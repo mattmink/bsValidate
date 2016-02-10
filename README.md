@@ -153,7 +153,7 @@ $('#theForm').bsValidate({
   // DEFAULT: function(){} (FUNCTION)
   before: function(){},
 
-// Callback function that fires after all fields pass validation, but before the form submits.
+  // Callback function that fires after all fields pass validation, but before the form submits.
   // In case you want to submit your form with JavaScript (Ajax) or run more JavaScript before submitting,
   // an event parameter is passed to the function, and event.preventDefault() can be used.
   // DEFAULT: function(e){} (FUNCTION)
@@ -171,7 +171,18 @@ $('#theForm').bsValidate({
   // Require the field
   required: {
     helpText: "Custom required help text.",
-    alert: "Custom alert for required field."
+    alert: "Custom alert for required field.",
+    // If this field depends on others, you can set validation conditions.
+    // NOTE: The fields referenced in this property need to be registered
+    //     in the {fields} object, even if no validation is desired for the 
+    //     referenced field. Setting the field to an empty object {} will 
+    //     register it without enforcing validation.
+    dependency: {
+        // Use the [name] attribute of the field(s) we're checking against.
+        isBlank: 'fieldName',
+        // Dependencies can be a comma-separated list of field names
+        isNotBlank: 'fieldName2,fieldName3'
+    }
   },
   // Make sure it looks like an email address
   email: {
