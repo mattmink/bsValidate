@@ -29,8 +29,10 @@ $(function(){
     }
   });
 
+  var customMessagesForm = $('#customMessagesForm');
+
   // Custom Messages
-  $('#customMessagesForm').bsValidate({
+  customMessagesForm.bsValidate({
     fields:{
       name: {
         required: {
@@ -42,6 +44,9 @@ $(function(){
         required: {
           helpText: "Please enter your email.",
           alert: "You are required to enter your email."
+          dependency: {
+            isBlank: 'name'
+          }
         }
       },
       emailConfirm: {
@@ -62,6 +67,9 @@ $(function(){
           alert: "Please enter an actual website address."
         }
       }
+    },
+    before: function(){
+        customMessagesForm.find('.alert').remove();
     },
     success: function(e){
       e.preventDefault();

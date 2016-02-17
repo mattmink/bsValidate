@@ -53,6 +53,24 @@
                 if(typeof fields[key].el !== "object" || typeof fields[key].el.jquery === "undefined"){
                     fields[key].el = form.find('[name="'+key+'"]');
                 }
+                if(fields[key].required && fields[key].required.dependency){
+                    $.each( fields[key].required.dependency, function( depKey, depValue ) {
+                        var depFields = depValue.split(',');
+                        for (var i = 0; i < depFields.length; i++) {
+                            if(!fields[depFields[i]]) {
+                                fields[depFields[i]] = {
+                                    el: form.find('[name="'+depFields[i]+'"]')
+                                };
+                                fields[depFields[i]].el.on('change', {bsv:bsv, fields:fields, key:depFields[i], value:fields[depFields[i]]} , bsvFieldChange);
+                            }
+                            if(fields[depFields[i]]['hasDependency']) {
+                                fields[depFields[i]]['hasDependency'] += ',' + key
+                            } else {
+                                fields[depFields[i]]['hasDependency'] = key;
+                            }
+                        }
+                    });
+                }
                 if(fields[key].el.length > 0){
                     fields[key].el.on('change', {bsv:bsv, fields:fields, key:key, value:value} , bsvFieldChange);
                 }else{
@@ -82,6 +100,7 @@
                         if(fields[key].required.dependency){
                             if(fields[key].required.dependency.isBlank){
                                 requiredTest = requiredTest && fieldGroupIsBlank(fields, fields[key].required.dependency.isBlank);
+                                console.log(key, requiredTest);
                             }
                             if(fields[key].required.dependency.isNotBlank){
                                 requiredTest = requiredTest && fieldGroupIsNotBlank(fields, fields[key].required.dependency.isNotBlank);
@@ -198,12 +217,9 @@
         if(typeof dependencies === 'string') {
             dependencies = dependencies.split(',');
         }
-        console.log(fields);
-        console.log(dependencies);
         for (var i = 0; i < dependencies.length; i++) {
             if(!fields[dependencies[i]].el.isBlank()){
                 filledCount++;
-                console.log(filledCount);
             }
         }
         return filledCount === dependencies.length;
@@ -272,9 +288,25 @@
         var errCnt = 0;
         var styleClass;
         var v = el.val();
+        if(typeof fields[key].hasDependency !== "undefined"){
+            var depFields = fields[key].hasDependency.split(',');
+            for (var i = 0; i < depFields.length; i++) {
+                fields[depFields[i]].el.trigger('change');
+            }
+        }
         if(typeof fields[key].required !== "undefined"){
+            var requiredTest = fields[key].el.isBlank(bsv);
             styleClass = 'help-required';
-            errCnt += toggleHelpText(el.isBlank(bsv), fields[key].required.helpText, formGroup, styleClass);
+            if(fields[key].required.dependency){
+                if(fields[key].required.dependency.isBlank){
+                    requiredTest = requiredTest && fieldGroupIsBlank(fields, fields[key].required.dependency.isBlank);
+                }
+                if(fields[key].required.dependency.isNotBlank){
+                    requiredTest = requiredTest && fieldGroupIsNotBlank(fields, fields[key].required.dependency.isNotBlank);
+                }
+            }
+            console.log(key, requiredTest);
+            errCnt += toggleHelpText(requiredTest, fields[key].required.helpText, formGroup, styleClass);
         }
         if(typeof fields[key].email !== "undefined"){
             styleClass = 'help-email';
@@ -293,6 +325,7 @@
             var matchFieldValue = form.find('[name="'+fields[key].match.field+'"]').val();
             errCnt += toggleHelpText(matchFieldValue !== v && !el.isBlank(bsv), fields[key].match.helpText, formGroup, styleClass);
         }
+        console.log(key, errCnt);
         if(errCnt > 0){
             formGroup.addClass('has-error');
         }else{
