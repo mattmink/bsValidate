@@ -1,6 +1,6 @@
 {
   "name": "bsValidate",
-  "version": "0.6.2",
+  "version": "0.7.2",
   "description": "jQuery Plugin for validation of Bootstrap (v3) forms",
   "main": "jquery.bsvalidate.min.js",
   "scripts": {

@@ -1,7 +1,7 @@
 /*!
- * jQuery bsValidate Plugin
+ * jQuery bsValidate Plugin v0.7.2
  * Form Validation for Twitter Bootstrap Forms (https://github.com/matthewjmink/bsValidate)
- * Copyright 2015 Matt Mink
+ * Copyright 2016 Matt Mink
  * Licensed under MIT (https://github.com/matthewjmink/bsValidate/blob/master/LICENSE)
  */
 
