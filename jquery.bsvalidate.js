@@ -62,7 +62,6 @@
                                     el: form.find('[name="'+depFields[i]+'"]')
                                 };
                                 fields[depFields[i]].el.on('blur', {bsv:bsv, fields:fields, key:depFields[i], value:fields[depFields[i]]} , bsvFieldChange);
-                                fields[depFields[i]].el.on('focus', {bsv:bsv, fields:fields, key:depFields[i], value:fields[depFields[i]]} , bsvFieldFocus);
                             }
                             if(fields[depFields[i]].hasDependency) {
                                 fields[depFields[i]].hasDependency += ',' + key;
@@ -74,7 +73,6 @@
                 }
                 if(fields[key].el.length > 0){
                     fields[key].el.on('blur', {bsv:bsv, fields:fields, key:key, value:value} , bsvFieldChange);
-                    fields[key].el.on('focus', {bsv:bsv, fields:fields, key:key, value:value} , bsvFieldFocus);
                 }else{
                     delete fields[key];
                 }
@@ -99,14 +97,7 @@
                     if(typeof fields[key].required !== "undefined"){
                         var requiredTest = fields[key].el.isBlank(bsv);
                         styleClass = 'alert-'+styleKey+'-required';
-                        if(fields[key].required.dependency){
-                            if(fields[key].required.dependency.isBlank){
-                                requiredTest = requiredTest && fieldGroupIsBlank(fields, fields[key].required.dependency.isBlank);
-                            }
-                            if(fields[key].required.dependency.isNotBlank){
-                                requiredTest = requiredTest && fieldGroupIsNotBlank(fields, fields[key].required.dependency.isNotBlank);
-                            }
-                        }
+                        requiredTest = requiredTest && isDependent(fields, key);
                         errCnt += (bsv.settings.mergeAlerts) ? requiredTest | 0 : toggleAlert(requiredTest, fields[key].required.alert, bsv.settings.alertTarget, styleClass);
                         alertMessage += (isList) ? '<li>'+fields[key].required.alert+'</li>' : '';
                     }
@@ -200,6 +191,19 @@
         this.init();
     }
 
+    function isDependent(fields, key){
+        var requiredTest = true;
+        if(fields[key].required.dependency){
+            if(fields[key].required.dependency.isBlank){
+                requiredTest = requiredTest && fieldGroupIsBlank(fields, fields[key].required.dependency.isBlank);
+            }
+            if(fields[key].required.dependency.isNotBlank){
+                requiredTest = requiredTest && fieldGroupIsNotBlank(fields, fields[key].required.dependency.isNotBlank);
+            }
+        }
+        return requiredTest;
+    }
+
     function fieldGroupIsBlank(fields, dependencies){
         var blankCount = 0;
         if(typeof dependencies === 'string') {
@@ -278,14 +282,6 @@
         alert.remove();
     }
 
-    function bsvFieldFocus(event){
-        var fields = event.data.fields;
-        var key = event.data.key;
-        if(!fields[key].touched){
-            fields[key].touched = true;
-        }
-    }
-
     function bsvFieldChange(event){
         var data = event.data;
         var bsv = data.bsv;
@@ -299,21 +295,12 @@
         var v = el.val();
         if(typeof fields[key].hasDependency !== "undefined"){
             var depFields = fields[key].hasDependency.split(',');
-            console.log(event);
-            console.log(depFields.length > 1,  fields[depFields[0]].el[0] !== event.relatedTarget);
             if(depFields.length > 1 || fields[depFields[0]].el[0] !== event.relatedTarget) {
                 for (var i = 0; i < depFields.length; i++) {
                     var depRequiredTest = fields[depFields[i]].el.isBlank(bsv);
                     var depFormGroup = fields[depFields[i]].el.parents('.form-group');
                     styleClass = 'help-required';
-                    if(fields[depFields[i]].required.dependency){
-                        if(fields[depFields[i]].required.dependency.isBlank){
-                            depRequiredTest = depRequiredTest && fieldGroupIsBlank(fields, fields[depFields[i]].required.dependency.isBlank);
-                        }
-                        if(fields[depFields[i]].required.dependency.isNotBlank){
-                            depRequiredTest = depRequiredTest && fieldGroupIsNotBlank(fields, fields[depFields[i]].required.dependency.isNotBlank);
-                        }
-                    }
+                    depRequiredTest = depRequiredTest && isDependent(fields, depFields[i]);
                     var hasError = toggleHelpText(depRequiredTest, fields[depFields[i]].required.helpText, depFormGroup, styleClass);
                     if(hasError) {
                         depFormGroup.addClass('has-error');
@@ -326,14 +313,7 @@
         if(typeof fields[key].required !== "undefined"){
             var requiredTest = fields[key].el.isBlank(bsv);
             styleClass = 'help-required';
-            if(fields[key].required.dependency){
-                if(fields[key].required.dependency.isBlank){
-                    requiredTest = requiredTest && fieldGroupIsBlank(fields, fields[key].required.dependency.isBlank);
-                }
-                if(fields[key].required.dependency.isNotBlank){
-                    requiredTest = requiredTest && fieldGroupIsNotBlank(fields, fields[key].required.dependency.isNotBlank);
-                }
-            }
+            requiredTest = requiredTest && isDependent(fields, key);
             errCnt += toggleHelpText(requiredTest, fields[key].required.helpText, formGroup, styleClass);
         }
         if(typeof fields[key].email !== "undefined"){
