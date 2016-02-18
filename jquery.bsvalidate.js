@@ -63,10 +63,10 @@
                                 };
                                 fields[depFields[i]].el.on('change', {bsv:bsv, fields:fields, key:depFields[i], value:fields[depFields[i]]} , bsvFieldChange);
                             }
-                            if(fields[depFields[i]]['hasDependency']) {
-                                fields[depFields[i]]['hasDependency'] += ',' + key
+                            if(fields[depFields[i]].hasDependency) {
+                                fields[depFields[i]].hasDependency += ',' + key;
                             } else {
-                                fields[depFields[i]]['hasDependency'] = key;
+                                fields[depFields[i]].hasDependency = key;
                             }
                         }
                     });
