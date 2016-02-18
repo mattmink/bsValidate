@@ -43,7 +43,7 @@ $(function(){
       email: {
         required: {
           helpText: "Please enter your email.",
-          alert: "You are required to enter your email."
+          alert: "You are required to enter your email.",
           dependency: {
             isBlank: 'name'
           }
@@ -52,7 +52,10 @@ $(function(){
       emailConfirm: {
         required: {
           helpText: "Please confirm your email.",
-          alert: "You are required to confirm your email."
+          alert: "You are required to confirm your email.",
+          dependency: {
+            isNotBlank: 'email'
+          }
         },
         match: {
           field: "email",
