@@ -100,7 +100,6 @@
                         if(fields[key].required.dependency){
                             if(fields[key].required.dependency.isBlank){
                                 requiredTest = requiredTest && fieldGroupIsBlank(fields, fields[key].required.dependency.isBlank);
-                                console.log(key, requiredTest);
                             }
                             if(fields[key].required.dependency.isNotBlank){
                                 requiredTest = requiredTest && fieldGroupIsNotBlank(fields, fields[key].required.dependency.isNotBlank);
@@ -305,7 +304,6 @@
                     requiredTest = requiredTest && fieldGroupIsNotBlank(fields, fields[key].required.dependency.isNotBlank);
                 }
             }
-            console.log(key, requiredTest);
             errCnt += toggleHelpText(requiredTest, fields[key].required.helpText, formGroup, styleClass);
         }
         if(typeof fields[key].email !== "undefined"){
@@ -325,7 +323,6 @@
             var matchFieldValue = form.find('[name="'+fields[key].match.field+'"]').val();
             errCnt += toggleHelpText(matchFieldValue !== v && !el.isBlank(bsv), fields[key].match.helpText, formGroup, styleClass);
         }
-        console.log(key, errCnt);
         if(errCnt > 0){
             formGroup.addClass('has-error');
         }else{
