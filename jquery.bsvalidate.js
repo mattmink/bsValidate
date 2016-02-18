@@ -32,16 +32,16 @@
             var fields = bsv.settings.fields;
             var novalidate = form.attr('novalidate');
 
-            if(typeof novalidate === 'undefined' && bsv.settings.novalidate){
+            if(novalidate === undefined && bsv.settings.novalidate){
                 form.attr('novalidate', '');
             }
 
             required.each(function(){
                 var name = $(this).attr('name');
-                if(typeof fields[name] === "undefined" || typeof fields[name].required === "undefined"){
+                if(fields[name] === undefined || fields[name].required === undefined){
                     var formGroup = $(this).parents('.form-group');
                     var label = formGroup.find('.label,label').text();
-                    fields[name] = (typeof fields[name] === "undefined") ? {} : fields[name];
+                    fields[name] = (fields[name] === undefined) ? {} : fields[name];
                     fields[name].el = $(this);
                     fields[name].required = {
                         alert: label + " is required."
@@ -50,7 +50,7 @@
             });
 
             $.each( fields, function( key, value ) {
-                if(typeof fields[key].el !== "object" || typeof fields[key].el.jquery === "undefined"){
+                if(typeof fields[key].el !== "object" || fields[key].el.jquery === undefined){
                     fields[key].el = form.find('[name="'+key+'"]');
                 }
                 if(fields[key].required && fields[key].required.dependency){
@@ -94,29 +94,29 @@
                     var errCnt = 0;
                     var v = fields[key].el.val();
                     var styleKey = key.replace(/[^a-zA-Z\d-]/g, '-');
-                    if(typeof fields[key].required !== "undefined"){
+                    if(fields[key].required !== undefined){
                         var requiredTest = fields[key].el.isBlank(bsv);
                         styleClass = 'alert-'+styleKey+'-required';
                         requiredTest = requiredTest && isDependent(fields, key);
                         errCnt += (bsv.settings.mergeAlerts) ? requiredTest | 0 : toggleAlert(requiredTest, fields[key].required.alert, bsv.settings.alertTarget, styleClass);
                         alertMessage += (isList) ? '<li>'+fields[key].required.alert+'</li>' : '';
                     }
-                    if(typeof fields[key].email !== "undefined"){
+                    if(fields[key].email !== undefined){
                         styleClass = 'alert-'+styleKey+'-email';
                         errCnt += (bsv.settings.mergeAlerts) ? !isValidEmail(v) && !fields[key].el.isBlank(bsv) | 0 : toggleAlert(!isValidEmail(v) && !fields[key].el.isBlank(bsv), fields[key].email.alert, bsv.settings.alertTarget, styleClass);
                         alertMessage += (isList) ? '<li>'+fields[key].email.alert+'</li>' : '';
                     }
-                    if(typeof fields[key].characters !== "undefined"){
+                    if(fields[key].characters !== undefined){
                         styleClass = 'alert-'+styleKey+'-characters';
                         errCnt += (bsv.settings.mergeAlerts) ? v.length > fields[key].characters.limit | 0 : toggleAlert(v.length > fields[key].characters.limit, fields[key].characters.alert, bsv.settings.alertTarget, styleClass);
                         alertMessage += (isList) ? '<li>'+fields[key].characters.alert+'</li>' : '';
                     }
-                    if(typeof fields[key].regex !== "undefined"){
+                    if(fields[key].regex !== undefined){
                         styleClass = 'alert-'+styleKey+'-regex';
                         errCnt += (bsv.settings.mergeAlerts) ? !regexMatch(fields[key].regex.pattern, v) && !fields[key].el.isBlank(bsv) | 0 : toggleAlert(!regexMatch(fields[key].regex.pattern, v) && !fields[key].el.isBlank(bsv), fields[key].regex.alert, bsv.settings.alertTarget, styleClass);
                         alertMessage += (isList) ? '<li>'+fields[key].regex.alert+'</li>' : '';
                     }
-                    if(typeof fields[key].match !== "undefined"){
+                    if(fields[key].match !== undefined){
                         styleClass = 'alert-'+styleKey+'-match';
                         var matchFieldValue = form.find('[name="'+fields[key].match.field+'"]').val();
                         errCnt += (bsv.settings.mergeAlerts) ? matchFieldValue !== v && !fields[key].el.isBlank(bsv) | 0 : toggleAlert(matchFieldValue !== v && !fields[key].el.isBlank(bsv), fields[key].match.alert, bsv.settings.alertTarget, styleClass);
@@ -142,7 +142,7 @@
             var fields = bsv.settings.fields;
             bsv.settings.fields = {};
             $.each( fields, function( key, field ) {
-                if(typeof field.el === "object" && typeof field.el.jquery !== "undefined"){
+                if(typeof field.el === "object" && field.el.jquery !== undefined){
                     field.el.off('change blur', bsvFieldChange);
                 }
             });
@@ -232,12 +232,12 @@
 
     function toggleHelpText(test, helpText, formGroup, styleClass){
         if(test){
-            if(typeof helpText !== "undefined"){
+            if(helpText !== undefined){
                 addHelpText(formGroup, helpText, styleClass);
             }
             return 1;
         }else{
-            if(typeof helpText !== "undefined"){
+            if(helpText !== undefined){
                 removeHelpText(formGroup, styleClass);
             }
         }
@@ -246,12 +246,12 @@
 
     function toggleAlert(test, alertText, alertTarget, styleClass){
         if(test){
-            if(typeof alertText !== "undefined"){
+            if(alertText !== undefined){
                 addAlert(alertTarget, alertText, styleClass);
             }
             return 1;
         }else{
-            if(typeof alertText !== "undefined"){
+            if(alertText !== undefined){
                 removeAlert(alertTarget, styleClass);
             }
         }
@@ -293,7 +293,7 @@
         var errCnt = 0;
         var styleClass;
         var v = el.val();
-        if(typeof fields[key].hasDependency !== "undefined"){
+        if(fields[key].hasDependency !== undefined){
             var depFields = fields[key].hasDependency.split(',');
             if(depFields.length > 1 || fields[depFields[0]].el[0] !== event.relatedTarget) {
                 for (var i = 0; i < depFields.length; i++) {
@@ -310,25 +310,25 @@
                 }
             }
         }
-        if(typeof fields[key].required !== "undefined"){
+        if(fields[key].required !== undefined){
             var requiredTest = fields[key].el.isBlank(bsv);
             styleClass = 'help-required';
             requiredTest = requiredTest && isDependent(fields, key);
             errCnt += toggleHelpText(requiredTest, fields[key].required.helpText, formGroup, styleClass);
         }
-        if(typeof fields[key].email !== "undefined"){
+        if(fields[key].email !== undefined){
             styleClass = 'help-email';
             errCnt += toggleHelpText(!isValidEmail(v) && v !== "", fields[key].email.helpText, formGroup, styleClass);
         }
-        if(typeof fields[key].characters !== "undefined"){
+        if(fields[key].characters !== undefined){
             styleClass = 'help-characters';
             errCnt += toggleHelpText(v.length > fields[key].characters.limit, fields[key].characters.helpText, formGroup, styleClass);
         }
-        if(typeof fields[key].regex !== "undefined"){
+        if(fields[key].regex !== undefined){
             styleClass = 'help-regex';
             errCnt += toggleHelpText(!regexMatch(fields[key].regex.pattern, v) && !el.isBlank(bsv), fields[key].regex.helpText, formGroup, styleClass);
         }
-        if(typeof fields[key].match !== "undefined"){
+        if(fields[key].match !== undefined){
             styleClass = 'help-match';
             var matchFieldValue = form.find('[name="'+fields[key].match.field+'"]').val();
             errCnt += toggleHelpText(matchFieldValue !== v && !el.isBlank(bsv), fields[key].match.helpText, formGroup, styleClass);
