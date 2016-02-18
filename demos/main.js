@@ -43,10 +43,11 @@ $(function(){
       email: {
         required: {
           helpText: "Please enter your email.",
-          alert: "You are required to enter your email.",
-          dependency: {
-            isBlank: 'name'
-          }
+          alert: "You are required to enter your email."
+        },
+        email: {
+          helpText: "This doesn't look like a valid email.",
+          alert: "Please enter a valid email address."
         }
       },
       emailConfirm: {
@@ -70,6 +71,55 @@ $(function(){
           alert: "Please enter an actual website address."
         }
       }
+    },
+    before: function(){
+        customMessagesForm.find('.alert').remove();
+    },
+    success: function(e){
+      e.preventDefault();
+      alert('Success!');
+    }
+  });
+
+  var atLeastOneForm = $('#atLeastOneForm');
+
+  // Custom Messages
+  atLeastOneForm.bsValidate({
+    fields:{
+      field1: {
+        required: {
+          helpText: "Please enter at least one",
+          alert: "Enter at least one field value.",
+          dependency: {
+            isBlank: 'field2,field3,field4'
+          }
+        }
+      },
+      field2: {
+        required: {
+          helpText: "Please enter at least one",
+          dependency: {
+            isBlank: 'field1,field3,field4'
+          }
+        }
+      },
+      field3: {
+        required: {
+          helpText: "Please enter at least one",
+          dependency: {
+            isBlank: 'field2,field1,field4'
+          }
+        }
+      },
+      field4: {
+        required: {
+          helpText: "Please enter at least one",
+          dependency: {
+            isBlank: 'field2,field3,field1'
+          }
+        }
+      },
+
     },
     before: function(){
         customMessagesForm.find('.alert').remove();

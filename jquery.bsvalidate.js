@@ -61,7 +61,8 @@
                                 fields[depFields[i]] = {
                                     el: form.find('[name="'+depFields[i]+'"]')
                                 };
-                                fields[depFields[i]].el.on('change', {bsv:bsv, fields:fields, key:depFields[i], value:fields[depFields[i]]} , bsvFieldChange);
+                                fields[depFields[i]].el.on('blur', {bsv:bsv, fields:fields, key:depFields[i], value:fields[depFields[i]]} , bsvFieldChange);
+                                fields[depFields[i]].el.on('focus', {bsv:bsv, fields:fields, key:depFields[i], value:fields[depFields[i]]} , bsvFieldFocus);
                             }
                             if(fields[depFields[i]].hasDependency) {
                                 fields[depFields[i]].hasDependency += ',' + key;
@@ -72,7 +73,8 @@
                     });
                 }
                 if(fields[key].el.length > 0){
-                    fields[key].el.on('change', {bsv:bsv, fields:fields, key:key, value:value} , bsvFieldChange);
+                    fields[key].el.on('blur', {bsv:bsv, fields:fields, key:key, value:value} , bsvFieldChange);
+                    fields[key].el.on('focus', {bsv:bsv, fields:fields, key:key, value:value} , bsvFieldFocus);
                 }else{
                     delete fields[key];
                 }
@@ -150,7 +152,7 @@
             bsv.settings.fields = {};
             $.each( fields, function( key, field ) {
                 if(typeof field.el === "object" && typeof field.el.jquery !== "undefined"){
-                    field.el.off('change', bsvFieldChange);
+                    field.el.off('change blur', bsvFieldChange);
                 }
             });
             $(bsv.element).off("submit").removeData();
@@ -276,6 +278,14 @@
         alert.remove();
     }
 
+    function bsvFieldFocus(event){
+        var fields = event.data.fields;
+        var key = event.data.key;
+        if(!fields[key].touched){
+            fields[key].touched = true;
+        }
+    }
+
     function bsvFieldChange(event){
         var data = event.data;
         var bsv = data.bsv;
@@ -289,8 +299,28 @@
         var v = el.val();
         if(typeof fields[key].hasDependency !== "undefined"){
             var depFields = fields[key].hasDependency.split(',');
-            for (var i = 0; i < depFields.length; i++) {
-                fields[depFields[i]].el.trigger('change');
+            console.log(event);
+            console.log(depFields.length > 1,  fields[depFields[0]].el[0] !== event.relatedTarget);
+            if(depFields.length > 1 || fields[depFields[0]].el[0] !== event.relatedTarget) {
+                for (var i = 0; i < depFields.length; i++) {
+                    var depRequiredTest = fields[depFields[i]].el.isBlank(bsv);
+                    var depFormGroup = fields[depFields[i]].el.parents('.form-group');
+                    styleClass = 'help-required';
+                    if(fields[depFields[i]].required.dependency){
+                        if(fields[depFields[i]].required.dependency.isBlank){
+                            depRequiredTest = depRequiredTest && fieldGroupIsBlank(fields, fields[depFields[i]].required.dependency.isBlank);
+                        }
+                        if(fields[depFields[i]].required.dependency.isNotBlank){
+                            depRequiredTest = depRequiredTest && fieldGroupIsNotBlank(fields, fields[depFields[i]].required.dependency.isNotBlank);
+                        }
+                    }
+                    var hasError = toggleHelpText(depRequiredTest, fields[depFields[i]].required.helpText, depFormGroup, styleClass);
+                    if(hasError) {
+                        depFormGroup.addClass('has-error');
+                    } else {
+                        depFormGroup.removeClass('has-error');
+                    }
+                }
             }
         }
         if(typeof fields[key].required !== "undefined"){
