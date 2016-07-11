@@ -103,7 +103,7 @@
                             var requiredTest = fields[key].el.isBlank(bsv);
                             requiredTest = requiredTest && isDependent(fields, key);
                             errCnt += (bsv.settings.mergeAlerts) ? requiredTest | 0 : toggleAlert(requiredTest, fields[key][alertType].alert, bsv.settings.alertTarget, styleClass);
-                            alertMessage += (isList) ? '<li>'+fields[key][alertType].alert+'</li>' : '';
+                            alertMessage += (isList && requiredTest) ? '<li>'+fields[key][alertType].alert+'</li>' : '';
                             if(bsv.settings.toggleHelpTextOnSubmit){
                                 toggleHelpText(requiredTest, fields[key][alertType].helpText, formGroup, 'help-' + alertType);
                             }
@@ -113,7 +113,7 @@
                             styleClass = 'alert-'+styleKey+'-'+alertType;
                             var emailTest = !isValidEmail(v) && !fields[key].el.isBlank(bsv);
                             errCnt += (bsv.settings.mergeAlerts) ? emailTest | 0 : toggleAlert(emailTest, fields[key].email.alert, bsv.settings.alertTarget, styleClass);
-                            alertMessage += (isList) ? '<li>'+fields[key].email.alert+'</li>' : '';
+                            alertMessage += (isList && emailTest) ? '<li>'+fields[key].email.alert+'</li>' : '';
                             if(bsv.settings.toggleHelpTextOnSubmit){
                                 toggleHelpText(emailTest, fields[key][alertType].helpText, formGroup, 'help-' + alertType);
                             }
@@ -123,7 +123,7 @@
                             styleClass = 'alert-'+styleKey+'-'+alertType;
                             var charactersTest = v.length > fields[key][alertType].limit;
                             errCnt += (bsv.settings.mergeAlerts) ? charactersTest | 0 : toggleAlert(charactersTest, fields[key][alertType].alert, bsv.settings.alertTarget, styleClass);
-                            alertMessage += (isList) ? '<li>'+fields[key][alertType].alert+'</li>' : '';
+                            alertMessage += (isList && charactersTest) ? '<li>'+fields[key][alertType].alert+'</li>' : '';
                             if(bsv.settings.toggleHelpTextOnSubmit){
                                 toggleHelpText(charactersTest, fields[key][alertType].helpText, formGroup, 'help-' + alertType);
                             }
@@ -133,7 +133,7 @@
                             styleClass = 'alert-'+styleKey+'-'+alertType;
                             var regexTest = !regexMatch(fields[key][alertType].pattern, v) && !fields[key].el.isBlank(bsv);
                             errCnt += (bsv.settings.mergeAlerts) ? regexTest | 0 : toggleAlert(regexTest, fields[key][alertType].alert, bsv.settings.alertTarget, styleClass);
-                            alertMessage += (isList) ? '<li>'+fields[key][alertType].alert+'</li>' : '';
+                            alertMessage += (isList && regexTest) ? '<li>'+fields[key][alertType].alert+'</li>' : '';
                             if(bsv.settings.toggleHelpTextOnSubmit){
                                 toggleHelpText(regexTest, fields[key][alertType].helpText, formGroup, 'help-' + alertType);
                             }
@@ -144,7 +144,7 @@
                             var matchFieldValue = form.find('[name="'+fields[key][alertType].field+'"]').val();
                             var matchTest = matchFieldValue !== v && !fields[key].el.isBlank(bsv);
                             errCnt += (bsv.settings.mergeAlerts) ? matchTest | 0 : toggleAlert(matchTest, fields[key][alertType].alert, bsv.settings.alertTarget, styleClass);
-                            alertMessage += (isList) ? '<li>'+fields[key][alertType].alert+'</li>' : '';
+                            alertMessage += (isList && matchTest) ? '<li>'+fields[key][alertType].alert+'</li>' : '';
                             if(bsv.settings.toggleHelpTextOnSubmit){
                                 toggleHelpText(matchTest, fields[key][alertType].helpText, formGroup, 'help-' + alertType);
                             }
