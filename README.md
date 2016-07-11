@@ -125,7 +125,7 @@ $('#theForm').bsValidate({
   alertTarget: $(element),
 
   // A jQuery selector used to determine which fields should be required.
-  // DEFAULT: "input.required:not(:checkbox),textarea.required,select.required,[required]" (STRING)
+  // DEFAULT: "input.required,textarea.required,select.required,[required]" (STRING)
   requiredSelector: "",
 
   // For <select> fields, change what the plugin considers as "blank" (i.e. "-- Select --")
@@ -142,6 +142,15 @@ $('#theForm').bsValidate({
   // If {mergeAlerts} is set to TRUE, this message will replace the list of validation messages.
   // DEFAULT: null (STRING)
   alertMessage: null,
+
+  // Help text only shows on field change by default. Set this to TRUE to display help text for
+  // fields on form submission as well.
+  // DEFAULT: false (BOOLEAN)
+  toggleHelpTextOnSubmit: false,
+
+  // Automatically scroll the page on form submission so the alerts are in view.
+  // DEFAULT: true (BOOLEAN)
+  autoScrollToAlerts: true,
 
   // Set {novalidate} to false to use browser validation for fields with the [required] attribute (browser 
   // validation is overriden by default).
