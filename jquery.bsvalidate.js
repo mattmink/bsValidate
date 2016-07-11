@@ -19,6 +19,7 @@
         blankSelectValue: "",
         novalidate: true,
         toggleHelpTextOnSubmit: false,
+        autoScrollToAlerts: true,
         before: function(){},
         success: function(){},
         fail: function(e){e.preventDefault();}
@@ -163,6 +164,11 @@
                 if(isValid){
                     bsv.settings.success(e);
                 }else{
+                    if(bsv.settings.autoScrollToAlerts){
+                        $('html, body').animate({
+                            scrollTop: bsv.settings.alertTarget.offset().top
+                        }, 500);
+                    }
                     bsv.settings.fail(e);
                 }
             });
