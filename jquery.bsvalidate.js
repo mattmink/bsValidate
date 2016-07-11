@@ -18,6 +18,7 @@
         alertMessage: null,
         blankSelectValue: "",
         novalidate: true,
+        toggleHelpTextOnSubmit: false,
         before: function(){},
         success: function(){},
         fail: function(e){e.preventDefault();}
@@ -87,48 +88,78 @@
                     alertMessage = '<ul>';
                     isList = true;
                 }
-                $.each( fields, function( key, value ) {
-                    var styleClass;
-                    var formGroup = fields[key].el.parents('.form-group');
-                    var errCnt = 0;
-                    var v = fields[key].el.val();
-                    var styleKey = key.replace(/[^a-zA-Z\d-]/g, '-');
-                    if(fields[key].required !== undefined){
-                        var requiredTest = fields[key].el.isBlank(bsv);
-                        styleClass = 'alert-'+styleKey+'-required';
-                        requiredTest = requiredTest && isDependent(fields, key);
-                        errCnt += (bsv.settings.mergeAlerts) ? requiredTest | 0 : toggleAlert(requiredTest, fields[key].required.alert, bsv.settings.alertTarget, styleClass);
-                        alertMessage += (isList) ? '<li>'+fields[key].required.alert+'</li>' : '';
-                    }
-                    if(fields[key].email !== undefined){
-                        styleClass = 'alert-'+styleKey+'-email';
-                        errCnt += (bsv.settings.mergeAlerts) ? !isValidEmail(v) && !fields[key].el.isBlank(bsv) | 0 : toggleAlert(!isValidEmail(v) && !fields[key].el.isBlank(bsv), fields[key].email.alert, bsv.settings.alertTarget, styleClass);
-                        alertMessage += (isList) ? '<li>'+fields[key].email.alert+'</li>' : '';
-                    }
-                    if(fields[key].characters !== undefined){
-                        styleClass = 'alert-'+styleKey+'-characters';
-                        errCnt += (bsv.settings.mergeAlerts) ? v.length > fields[key].characters.limit | 0 : toggleAlert(v.length > fields[key].characters.limit, fields[key].characters.alert, bsv.settings.alertTarget, styleClass);
-                        alertMessage += (isList) ? '<li>'+fields[key].characters.alert+'</li>' : '';
-                    }
-                    if(fields[key].regex !== undefined){
-                        styleClass = 'alert-'+styleKey+'-regex';
-                        errCnt += (bsv.settings.mergeAlerts) ? !regexMatch(fields[key].regex.pattern, v) && !fields[key].el.isBlank(bsv) | 0 : toggleAlert(!regexMatch(fields[key].regex.pattern, v) && !fields[key].el.isBlank(bsv), fields[key].regex.alert, bsv.settings.alertTarget, styleClass);
-                        alertMessage += (isList) ? '<li>'+fields[key].regex.alert+'</li>' : '';
-                    }
-                    if(fields[key].match !== undefined){
-                        styleClass = 'alert-'+styleKey+'-match';
-                        var matchFieldValue = form.find('[name="'+fields[key].match.field+'"]').val();
-                        errCnt += (bsv.settings.mergeAlerts) ? matchFieldValue !== v && !fields[key].el.isBlank(bsv) | 0 : toggleAlert(matchFieldValue !== v && !fields[key].el.isBlank(bsv), fields[key].match.alert, bsv.settings.alertTarget, styleClass);
-                        alertMessage += (isList) ? '<li>'+fields[key].regex.alert+'</li>' : '';
-                    }
-                    if(errCnt > 0){
-                        formGroup.addClass('has-error');
-                        isValid = false;
-                    }else{
-                        formGroup.removeClass('has-error');
-                    }
-                });
-                toggleAlert(!isValid && bsv.settings.mergeAlerts, alertMessage, bsv.settings.alertTarget, 'bsv-alert');
+                try{
+                    $.each( fields, function( key, value ) {
+                        var styleClass, alertType;
+                        var formGroup = fields[key].el.parents('.form-group');
+                        var errCnt = 0;
+                        var v = fields[key].el.val();
+                        var styleKey = key.replace(/[^a-zA-Z\d-]/g, '-');
+                        var formGroup = fields[key].el.parents('.form-group');
+                        if(fields[key].required !== undefined){
+                            alertType = 'required'
+                            styleClass = 'alert-'+styleKey+'-'+alertType;
+                            var requiredTest = fields[key].el.isBlank(bsv);
+                            requiredTest = requiredTest && isDependent(fields, key);
+                            errCnt += (bsv.settings.mergeAlerts) ? requiredTest | 0 : toggleAlert(requiredTest, fields[key][alertType].alert, bsv.settings.alertTarget, styleClass);
+                            alertMessage += (isList) ? '<li>'+fields[key][alertType].alert+'</li>' : '';
+                            if(bsv.settings.toggleHelpTextOnSubmit){
+                                toggleHelpText(requiredTest, fields[key][alertType].helpText, formGroup, 'help-' + alertType);
+                            }
+                        }
+                        if(fields[key].email !== undefined){
+                            alertType = 'email'
+                            styleClass = 'alert-'+styleKey+'-'+alertType;
+                            var emailTest = !isValidEmail(v) && !fields[key].el.isBlank(bsv);
+                            errCnt += (bsv.settings.mergeAlerts) ? emailTest | 0 : toggleAlert(emailTest, fields[key].email.alert, bsv.settings.alertTarget, styleClass);
+                            alertMessage += (isList) ? '<li>'+fields[key].email.alert+'</li>' : '';
+                            if(bsv.settings.toggleHelpTextOnSubmit){
+                                toggleHelpText(emailTest, fields[key][alertType].helpText, formGroup, 'help-' + alertType);
+                            }
+                        }
+                        if(fields[key].characters !== undefined){
+                            alertType = 'characters'
+                            styleClass = 'alert-'+styleKey+'-'+alertType;
+                            var charactersTest = v.length > fields[key][alertType].limit;
+                            errCnt += (bsv.settings.mergeAlerts) ? charactersTest | 0 : toggleAlert(charactersTest, fields[key][alertType].alert, bsv.settings.alertTarget, styleClass);
+                            alertMessage += (isList) ? '<li>'+fields[key][alertType].alert+'</li>' : '';
+                            if(bsv.settings.toggleHelpTextOnSubmit){
+                                toggleHelpText(charactersTest, fields[key][alertType].helpText, formGroup, 'help-' + alertType);
+                            }
+                        }
+                        if(fields[key].regex !== undefined){
+                            alertType = 'regex'
+                            styleClass = 'alert-'+styleKey+'-'+alertType;
+                            var regexTest = !regexMatch(fields[key][alertType].pattern, v) && !fields[key].el.isBlank(bsv);
+                            errCnt += (bsv.settings.mergeAlerts) ? regexTest | 0 : toggleAlert(regexTest, fields[key][alertType].alert, bsv.settings.alertTarget, styleClass);
+                            alertMessage += (isList) ? '<li>'+fields[key][alertType].alert+'</li>' : '';
+                            if(bsv.settings.toggleHelpTextOnSubmit){
+                                toggleHelpText(regexTest, fields[key][alertType].helpText, formGroup, 'help-' + alertType);
+                            }
+                        }
+                        if(fields[key].match !== undefined){
+                            alertType = 'match'
+                            styleClass = 'alert-'+styleKey+'-'+alertType;
+                            var matchFieldValue = form.find('[name="'+fields[key][alertType].field+'"]').val();
+                            var matchTest = matchFieldValue !== v && !fields[key].el.isBlank(bsv);
+                            errCnt += (bsv.settings.mergeAlerts) ? matchTest | 0 : toggleAlert(matchTest, fields[key][alertType].alert, bsv.settings.alertTarget, styleClass);
+                            alertMessage += (isList) ? '<li>'+fields[key][alertType].alert+'</li>' : '';
+                            if(bsv.settings.toggleHelpTextOnSubmit){
+                                toggleHelpText(matchTest, fields[key][alertType].helpText, formGroup, 'help-' + alertType);
+                            }
+                        }
+                        if(errCnt > 0){
+                            formGroup.addClass('has-error');
+                            isValid = false;
+                        }else{
+                            formGroup.removeClass('has-error');
+                        }
+                    });
+                    toggleAlert(!isValid && bsv.settings.mergeAlerts, alertMessage, bsv.settings.alertTarget, 'bsv-alert');
+                } catch(e){
+                    console.log(e);
+                    isValid = false;
+                }
                 if(isValid){
                     bsv.settings.success(e);
                 }else{
