@@ -272,7 +272,6 @@
     function addAlert(target, message, styleClass){
         if(target.find('.'+styleClass).length < 1){
             var alert = $('<div class="alert alert-danger ' +styleClass+ '">'+message+'</div>');
-            console.log(alert);
             target.prepend(alert);
         }
     }
