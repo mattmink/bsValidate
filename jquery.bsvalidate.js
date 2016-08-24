@@ -95,56 +95,58 @@
                     var errCnt = 0;
                     var v = fields[key].el.val();
                     var styleKey = key.replace(/[^a-zA-Z\d-]/g, '-');
-                    if(fields[key].required !== undefined){
-                        alertType = 'required';
-                        styleClass = 'alert-'+styleKey+'-'+alertType;
-                        var requiredTest = fields[key].el.isBlank(bsv);
-                        requiredTest = requiredTest && isDependent(fields, key);
-                        errCnt += (bsv.settings.mergeAlerts) ? requiredTest | 0 : toggleAlert(requiredTest, fields[key][alertType].alert, bsv.settings.alertTarget, styleClass);
-                        alertMessage += (isList && requiredTest) ? '<li>'+fields[key][alertType].alert+'</li>' : '';
-                        if(bsv.settings.toggleHelpTextOnSubmit){
-                            toggleHelpText(requiredTest, fields[key][alertType].helpText, formGroup, 'help-' + alertType);
+                    if(fields[key].el.is(':visible')) {
+                        if(fields[key].required !== undefined){
+                            alertType = 'required';
+                            styleClass = 'alert-'+styleKey+'-'+alertType;
+                            var requiredTest = fields[key].el.isBlank(bsv);
+                            requiredTest = requiredTest && isDependent(fields, key);
+                            errCnt += (bsv.settings.mergeAlerts) ? requiredTest | 0 : toggleAlert(requiredTest, fields[key][alertType].alert, bsv.settings.alertTarget, styleClass);
+                            alertMessage += (isList && requiredTest) ? '<li>'+fields[key][alertType].alert+'</li>' : '';
+                            if(bsv.settings.toggleHelpTextOnSubmit){
+                                toggleHelpText(requiredTest, fields[key][alertType].helpText, formGroup, 'help-' + alertType);
+                            }
                         }
-                    }
-                    if(fields[key].email !== undefined){
-                        alertType = 'email';
-                        styleClass = 'alert-'+styleKey+'-'+alertType;
-                        var emailTest = !isValidEmail(v) && !fields[key].el.isBlank(bsv);
-                        errCnt += (bsv.settings.mergeAlerts) ? emailTest | 0 : toggleAlert(emailTest, fields[key].email.alert, bsv.settings.alertTarget, styleClass);
-                        alertMessage += (isList && emailTest) ? '<li>'+fields[key].email.alert+'</li>' : '';
-                        if(bsv.settings.toggleHelpTextOnSubmit){
-                            toggleHelpText(emailTest, fields[key][alertType].helpText, formGroup, 'help-' + alertType);
+                        if(fields[key].email !== undefined){
+                            alertType = 'email';
+                            styleClass = 'alert-'+styleKey+'-'+alertType;
+                            var emailTest = !isValidEmail(v) && !fields[key].el.isBlank(bsv);
+                            errCnt += (bsv.settings.mergeAlerts) ? emailTest | 0 : toggleAlert(emailTest, fields[key].email.alert, bsv.settings.alertTarget, styleClass);
+                            alertMessage += (isList && emailTest) ? '<li>'+fields[key].email.alert+'</li>' : '';
+                            if(bsv.settings.toggleHelpTextOnSubmit){
+                                toggleHelpText(emailTest, fields[key][alertType].helpText, formGroup, 'help-' + alertType);
+                            }
                         }
-                    }
-                    if(fields[key].characters !== undefined){
-                        alertType = 'characters';
-                        styleClass = 'alert-'+styleKey+'-'+alertType;
-                        var charactersTest = v.length > fields[key][alertType].limit;
-                        errCnt += (bsv.settings.mergeAlerts) ? charactersTest | 0 : toggleAlert(charactersTest, fields[key][alertType].alert, bsv.settings.alertTarget, styleClass);
-                        alertMessage += (isList && charactersTest) ? '<li>'+fields[key][alertType].alert+'</li>' : '';
-                        if(bsv.settings.toggleHelpTextOnSubmit){
-                            toggleHelpText(charactersTest, fields[key][alertType].helpText, formGroup, 'help-' + alertType);
+                        if(fields[key].characters !== undefined){
+                            alertType = 'characters';
+                            styleClass = 'alert-'+styleKey+'-'+alertType;
+                            var charactersTest = v.length > fields[key][alertType].limit;
+                            errCnt += (bsv.settings.mergeAlerts) ? charactersTest | 0 : toggleAlert(charactersTest, fields[key][alertType].alert, bsv.settings.alertTarget, styleClass);
+                            alertMessage += (isList && charactersTest) ? '<li>'+fields[key][alertType].alert+'</li>' : '';
+                            if(bsv.settings.toggleHelpTextOnSubmit){
+                                toggleHelpText(charactersTest, fields[key][alertType].helpText, formGroup, 'help-' + alertType);
+                            }
                         }
-                    }
-                    if(fields[key].regex !== undefined){
-                        alertType = 'regex';
-                        styleClass = 'alert-'+styleKey+'-'+alertType;
-                        var regexTest = !regexMatch(fields[key][alertType].pattern, v) && !fields[key].el.isBlank(bsv);
-                        errCnt += (bsv.settings.mergeAlerts) ? regexTest | 0 : toggleAlert(regexTest, fields[key][alertType].alert, bsv.settings.alertTarget, styleClass);
-                        alertMessage += (isList && regexTest) ? '<li>'+fields[key][alertType].alert+'</li>' : '';
-                        if(bsv.settings.toggleHelpTextOnSubmit){
-                            toggleHelpText(regexTest, fields[key][alertType].helpText, formGroup, 'help-' + alertType);
+                        if(fields[key].regex !== undefined){
+                            alertType = 'regex';
+                            styleClass = 'alert-'+styleKey+'-'+alertType;
+                            var regexTest = !regexMatch(fields[key][alertType].pattern, v) && !fields[key].el.isBlank(bsv);
+                            errCnt += (bsv.settings.mergeAlerts) ? regexTest | 0 : toggleAlert(regexTest, fields[key][alertType].alert, bsv.settings.alertTarget, styleClass);
+                            alertMessage += (isList && regexTest) ? '<li>'+fields[key][alertType].alert+'</li>' : '';
+                            if(bsv.settings.toggleHelpTextOnSubmit){
+                                toggleHelpText(regexTest, fields[key][alertType].helpText, formGroup, 'help-' + alertType);
+                            }
                         }
-                    }
-                    if(fields[key].match !== undefined){
-                        alertType = 'match';
-                        styleClass = 'alert-'+styleKey+'-'+alertType;
-                        var matchFieldValue = form.find('[name="'+fields[key][alertType].field+'"]').val();
-                        var matchTest = matchFieldValue !== v && !fields[key].el.isBlank(bsv);
-                        errCnt += (bsv.settings.mergeAlerts) ? matchTest | 0 : toggleAlert(matchTest, fields[key][alertType].alert, bsv.settings.alertTarget, styleClass);
-                        alertMessage += (isList && matchTest) ? '<li>'+fields[key][alertType].alert+'</li>' : '';
-                        if(bsv.settings.toggleHelpTextOnSubmit){
-                            toggleHelpText(matchTest, fields[key][alertType].helpText, formGroup, 'help-' + alertType);
+                        if(fields[key].match !== undefined){
+                            alertType = 'match';
+                            styleClass = 'alert-'+styleKey+'-'+alertType;
+                            var matchFieldValue = form.find('[name="'+fields[key][alertType].field+'"]').val();
+                            var matchTest = matchFieldValue !== v && !fields[key].el.isBlank(bsv);
+                            errCnt += (bsv.settings.mergeAlerts) ? matchTest | 0 : toggleAlert(matchTest, fields[key][alertType].alert, bsv.settings.alertTarget, styleClass);
+                            alertMessage += (isList && matchTest) ? '<li>'+fields[key][alertType].alert+'</li>' : '';
+                            if(bsv.settings.toggleHelpTextOnSubmit){
+                                toggleHelpText(matchTest, fields[key][alertType].helpText, formGroup, 'help-' + alertType);
+                            }
                         }
                     }
                     if(errCnt > 0){
