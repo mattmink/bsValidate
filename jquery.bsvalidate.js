@@ -57,7 +57,7 @@
                 }
                 if(fields[key].required && fields[key].required.dependency){
                     $.each( fields[key].required.dependency, function( depKey, depValue ) {
-                        var depFields = depValue.split(',');
+                        var depFields = (depKey === 'equals' || depKey === 'doesNotEqual') ? depValue[0].split(',') : depValue.split(',');
                         for (var i = 0; i < depFields.length; i++) {
                             if(!fields[depFields[i]]) {
                                 fields[depFields[i]] = {
@@ -231,6 +231,12 @@
             }
             if(fields[key].required.dependency.isNotBlank){
                 requiredTest = requiredTest && fieldGroupIsNotBlank(fields, fields[key].required.dependency.isNotBlank);
+            }
+            if(fields[key].required.dependency.equals) {
+                requiredTest = fields[fields[key].required.dependency.equals[0]].el.val() === fields[key].required.dependency.equals[1];
+            }
+            if(fields[key].required.dependency.doesNotEqual) {
+                requiredTest = fields[fields[key].required.dependency.doesNotEqual[0]].el.val() === fields[key].required.dependency.doesNotEqual[1];
             }
         }
         return requiredTest;

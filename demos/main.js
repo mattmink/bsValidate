@@ -43,7 +43,10 @@ $(function(){
       radioGroup: {
         required: {
           helpText: "Please select at least one",
-          alert: "You are required select at least one radio button"
+          alert: "You are required select at least one radio button",
+            dependency: {
+              equals: ['name', 'Billy']
+            }
         }
       },
       email: {
