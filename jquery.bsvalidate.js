@@ -238,7 +238,7 @@
                 requiredTest = fields[fields[key].required.dependency.equals[0]].el.val() === fields[key].required.dependency.equals[1];
             }
             if(fields[key].required.dependency.doesNotEqual) {
-                requiredTest = fields[fields[key].required.dependency.doesNotEqual[0]].el.val() === fields[key].required.dependency.doesNotEqual[1];
+                requiredTest = fields[fields[key].required.dependency.doesNotEqual[0]].el.val() !== fields[key].required.dependency.doesNotEqual[1];
             }
         }
         return requiredTest;
