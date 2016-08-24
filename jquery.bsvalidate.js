@@ -199,7 +199,7 @@
 
     $.fn.isBlank = function ( bsv ) {
         var val = this.val();
-        if(this.is(':checkbox')){
+        if(this.is(':checkbox,:radio')){
             return !this.is(':checked');
         }
         return (val === "" || val === null || val.length < 1 || (this[0].nodeName.toLowerCase() === 'select' && val == bsv.settings.blankSelectValue));

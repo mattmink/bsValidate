@@ -40,6 +40,12 @@ $(function(){
           alert: "You are required to enter your name."
         }
       },
+      radioGroup: {
+        required: {
+          helpText: "Please select at least one",
+          alert: "You are required select at least one radio button"
+        }
+      },
       email: {
         required: {
           helpText: "Please enter your email.",
