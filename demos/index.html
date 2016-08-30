@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
 
     <title>bsValidate jQuery Plugin Demos</title>
 
@@ -8,40 +8,24 @@
     <link rel="stylesheet" href="highlight/default.css">
     <link rel="stylesheet" type="text/css" href="style.css">
 
-  </head>
-  <body>
+</head>
+<body>
     <div class="container">
-      <h1>bsValidate jQuery Plugin Demos</h1>
-      <div id="basicExample" class="section first">
-        <h2>Basic Example</h2>
-        <div role="tabpanel">
-          <!-- Nav tabs -->
-          <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active">
-              <a href="#basicExampleDemo" aria-controls="basicExampleDemo" role="tab" data-toggle="tab">Demo</a>
-            </li>
-            <li role="presentation">
-              <a href="#basicExampleHTML" aria-controls="basicExampleHTML" role="tab" data-toggle="tab">HTML</a>
-            </li>
-            <li role="presentation">
-              <a href="#basicExampleJS" aria-controls="basicExampleJS" role="tab" data-toggle="tab">JavaScript</a>
-            </li>
-          </ul>
-          <!-- Tab panes -->
-          <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active" id="basicExampleDemo">
-              <form id="simpleForm" action="success.html" method="post" class="well">
+        <h1>bsValidate jQuery Plugin Demos</h1>
+        <div id="basicExample" class="section first">
+            <h2>Basic Example</h2>
+            <form id="simpleForm" action="success.html" method="post" class="well">
                 <div class="form-group">
-                  <label class="control-label">Name</label>
-                  <input type="text" name="name" class="form-control required" />
+                    <label class="control-label">Name</label>
+                    <input type="text" name="name" class="form-control required" />
                 </div>
                 <div class="form-group">
-                  <label class="control-label">Email</label>
-                  <input type="text" name="email" class="form-control" required />
+                    <label class="control-label">Email</label>
+                    <input type="text" name="email" class="form-control" required />
                 </div>
                 <div class="form-group">
-                  <label class="control-label">Message</label>
-                  <textarea name="message" class="form-control" rows="8"></textarea>
+                    <label class="control-label">Message</label>
+                    <textarea name="message" class="form-control" rows="8"></textarea>
                 </div>
                 <div class="checkbox form-group">
                     <label>
@@ -50,76 +34,28 @@
                     </label>
                 </div>
                 <div class="form-group">
-                  <input type="submit" class="btn btn-primary" value="Submit" />
+                    <input type="submit" class="btn btn-primary" value="Submit" />
                 </div>
-              </form>
-            </div>
-            <div role="tabpanel" class="tab-pane" id="basicExampleHTML">
-              <pre><code>
-                &lt;!-- Fields need to be wrapped in a .field-group to ensure proper display of error messages --&gt;
-                &lt;div class="form-group"&gt;
-                  &lt;!-- A label should be included, either with the &lt;label&gt; tag or an element given the .label class --&gt;
-                  &lt;label class="control-label"&gt;Name&lt;/label&gt;
-                  &lt;!-- This field will be required, because it uses the .required class --&gt;
-                  &lt;input type="text" name="name" class="form-control required" /&gt;
-                &lt;/div&gt;
-                &lt;div class="form-group"&gt;
-                  &lt;label class="control-label"&gt;Email&lt;/label&gt;
-                  &lt;!-- This field will also be required, because it uses the [required] attribute --&gt;
-                  &lt;input type="text" name="email" class="form-control" required /&gt;
-                &lt;/div&gt;
-                &lt;div class="form-group"&gt;
-                  &lt;label class="control-label"&gt;Message&lt;/label&gt;
-                  &lt;!-- No validation will be applied to this field --&gt;
-                  &lt;textarea name="message" class="form-control" rows="8"&gt;&lt;/textarea&gt;
-                &lt;/div&gt;
-                &lt;div class="form-group"&gt;
-                  &lt;input type="submit" class="btn btn-primary" value="Submit" /&gt;
-                &lt;/div&gt;
-              </code></pre>
-            </div>
-            <div role="tabpanel" class="tab-pane" id="basicExampleJS">
-              <pre><code>
-                $('#simpleForm').bsValidate();
-              </code></pre>
-            </div>
-          </div>
-        </div>
-      </div><!-- #basicExample -->
+            </form>
+        </div><!-- #basicExample -->
 
-      <div id="customMessagesExample" class="section">
-        <h2>Custom Messages</h2>
-        <div role="tabpanel">
-          <!-- Nav tabs -->
-          <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active">
-              <a href="#customMessagesExampleDemo" aria-controls="customMessagesExampleDemo" role="tab" data-toggle="tab">Demo</a>
-            </li>
-            <li role="presentation">
-              <a href="#customMessagesExampleHTML" aria-controls="customMessagesExampleHTML" role="tab" data-toggle="tab">HTML</a>
-            </li>
-            <li role="presentation">
-              <a href="#customMessagesExampleJS" aria-controls="customMessagesExampleJS" role="tab" data-toggle="tab">JavaScript</a>
-            </li>
-          </ul>
-          <!-- Tab panes -->
-          <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active" id="customMessagesExampleDemo">
-              <form id="customMessagesForm" action="success.html" method="post" class="well">
+        <div id="customMessagesExample" class="section">
+            <h2>Custom Messages</h2>
+            <form id="customMessagesForm" action="success.html" method="post" class="well">
                 <div class="alert alert-info">
-                This is only a test.
+                    This is only a test.
                 </div>
                 <div class="form-group">
-                  <label class="control-label">Name</label>
-                  <input type="text" name="name" class="form-control hidden" />
+                    <label class="control-label">Name</label>
+                    <input type="text" name="name" class="form-control" />
                 </div>
                 <div class="form-group">
-                  <label class="control-label">Email</label>
-                  <input type="text" name="email" class="form-control" />
+                    <label class="control-label">Email</label>
+                    <input type="text" name="email" class="form-control" />
                 </div>
                 <div class="form-group">
-                  <label class="control-label">Confirm Email</label>
-                  <input type="text" name="emailConfirm" class="form-control" />
+                    <label class="control-label">Confirm Email</label>
+                    <input type="text" name="emailConfirm" class="form-control" />
                 </div>
                 <div class="form-group">
                     <div class="radio">
@@ -139,156 +75,50 @@
                     </div>
                 </div>
                 <div class="form-group">
-                  <label class="control-label">Website</label>
-                  <input type="text" name="website" class="form-control" />
+                    <label class="control-label">Website</label>
+                    <input type="text" name="website" class="form-control" />
                 </div>
                 <div class="form-group">
-                  <label class="control-label">Message</label>
-                  <textarea name="message" class="form-control" rows="8"></textarea>
+                    <label class="control-label">Message</label>
+                    <textarea name="message" class="form-control" rows="8"></textarea>
                 </div>
                 <div class="form-group">
-                  <input type="submit" class="btn btn-primary" value="Submit" />
+                    <input type="submit" class="btn btn-primary" value="Submit" />
                 </div>
-              </form>
-            </div>
-            <div role="tabpanel" class="tab-pane" id="customMessagesExampleHTML">
-              <pre><code class="html">
-                &lt;form id="customMessagesForm" action="success.html" method="post" class="well"&gt;
-                  &lt;div class="form-group"&gt;
-                    &lt;label class="control-label"&gt;Name&lt;/label&gt;
-                    &lt;input type="text" name="name" class="form-control" /&gt;
-                  &lt;/div&gt;
-                  &lt;div class="form-group"&gt;
-                    &lt;label class="control-label"&gt;Email&lt;/label&gt;
-                    &lt;input type="text" name="email" class="form-control" /&gt;
-                  &lt;/div&gt;
-                  &lt;div class="form-group"&gt;
-                    &lt;label class="control-label"&gt;Message&lt;/label&gt;
-                    &lt;textarea name="message" class="form-control" rows="8"&gt;&lt;/textarea&gt;
-                  &lt;/div&gt;
-                  &lt;div class="form-group"&gt;
-                    &lt;input type="submit" class="btn btn-primary" value="Submit" /&gt;
-                  &lt;/div&gt;
-                &lt;/form&gt;
-              </code></pre>
-            </div>
-            <div role="tabpanel" class="tab-pane" id="customMessagesExampleJS">
-              <pre><code>
-                $('#customMessagesForm').bsValidate({
-                  fields:{
-                    name: {
-                      required: {
-                        helpText: "Please enter your name.",
-                        alert: "You are required to enter your name."
-                      }
-                    },
-                    email: {
-                      required: {
-                        helpText: "Please enter your email.",
-                        alert: "You are required to enter your email."
-                      }
-                    }
-                  }
-                });
-              </code></pre>
-            </div>
-          </div>
-        </div>
-      </div><!-- #customMessagesExample -->
+            </form>
+        </div><!-- #customMessagesExample -->
 
-      <div id="atLeastOneExample" class="section">
-        <h2>Complete At Least One</h2>
-        <div role="tabpanel">
-          <!-- Nav tabs -->
-          <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active">
-              <a href="#atLeastOneExampleDemo" aria-controls="atLeastOneExampleDemo" role="tab" data-toggle="tab">Demo</a>
-            </li>
-            <li role="presentation">
-              <a href="#atLeastOneExampleHTML" aria-controls="atLeastOneExampleHTML" role="tab" data-toggle="tab">HTML</a>
-            </li>
-            <li role="presentation">
-              <a href="#atLeastOneExampleJS" aria-controls="atLeastOneExampleJS" role="tab" data-toggle="tab">JavaScript</a>
-            </li>
-          </ul>
-          <!-- Tab panes -->
-          <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active" id="atLeastOneExampleDemo">
-              <form id="atLeastOneForm" action="success.html" method="post" class="well">
+        <div id="atLeastOneExample" class="section">
+            <h2>Complete At Least One</h2>
+            <form id="atLeastOneForm" action="success.html" method="post" class="well">
                 <div class="form-group">
-                  <label class="control-label">Field 1</label>
-                  <input type="text" name="field1" class="form-control" />
+                    <label class="control-label">Field 1</label>
+                    <input type="text" name="field1" class="form-control" />
                 </div>
                 <div class="form-group">
-                  <label class="control-label">Field 2</label>
-                  <input type="text" name="field2" class="form-control" />
+                    <label class="control-label">Field 2</label>
+                    <input type="text" name="field2" class="form-control" />
                 </div>
                 <div class="form-group">
-                  <label class="control-label">Field 3</label>
-                  <input type="text" name="field3" class="form-control" />
+                    <label class="control-label">Field 3</label>
+                    <input type="text" name="field3" class="form-control" />
                 </div>
                 <div class="form-group">
-                  <label class="control-label">Field 4</label>
-                  <input type="text" name="field4" class="form-control" />
+                    <label class="control-label">Field 4</label>
+                    <input type="text" name="field4" class="form-control" />
                 </div>
                 <div class="form-group">
-                  <input type="submit" class="btn btn-primary" value="Submit" />
+                    <input type="submit" class="btn btn-primary" value="Submit" />
                 </div>
-              </form>
-            </div>
-            <div role="tabpanel" class="tab-pane" id="atLeastOneExampleHTML">
-              <pre><code class="html">
-                &lt;form id="atLeastOneForm" action="success.html" method="post" class="well"&gt;
-                  &lt;div class="form-group"&gt;
-                    &lt;label class="control-label"&gt;Name&lt;/label&gt;
-                    &lt;input type="text" name="name" class="form-control" /&gt;
-                  &lt;/div&gt;
-                  &lt;div class="form-group"&gt;
-                    &lt;label class="control-label"&gt;Email&lt;/label&gt;
-                    &lt;input type="text" name="email" class="form-control" /&gt;
-                  &lt;/div&gt;
-                  &lt;div class="form-group"&gt;
-                    &lt;label class="control-label"&gt;Message&lt;/label&gt;
-                    &lt;textarea name="message" class="form-control" rows="8"&gt;&lt;/textarea&gt;
-                  &lt;/div&gt;
-                  &lt;div class="form-group"&gt;
-                    &lt;input type="submit" class="btn btn-primary" value="Submit" /&gt;
-                  &lt;/div&gt;
-                &lt;/form&gt;
-              </code></pre>
-            </div>
-            <div role="tabpanel" class="tab-pane" id="atLeastOneExampleJS">
-              <pre><code>
-                $('#atLeastOneForm').bsValidate({
-                  fields:{
-                    name: {
-                      required: {
-                        helpText: "Please enter your name.",
-                        alert: "You are required to enter your name."
-                      }
-                    },
-                    email: {
-                      required: {
-                        helpText: "Please enter your email.",
-                        alert: "You are required to enter your email."
-                      }
-                    }
-                  }
-                });
-              </code></pre>
-            </div>
-          </div>
-        </div>
-      </div><!-- #atLeastOneExample -->
+            </form>
+        </div><!-- #atLeastOneExample -->
 
     </div><!-- .container -->
 
-    <script src="highlight/highlight.pack.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
     <script src="../bower_components/jquery-legacy/dist/jquery.min.js"></script>
     <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../jquery.bsvalidate.js"></script>
     <script type="text/javascript" src="main.js"></script>
 
-  </body>
+</body>
 </html>
