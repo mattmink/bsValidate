@@ -113,6 +113,30 @@
             </form>
         </div><!-- #atLeastOneExample -->
 
+        <div id="ajaxFieldsExample" class="section">
+            <h2>Dynamic Fields (Ajax)</h2>
+            <form id="ajaxFieldsForm" action="success.html" method="post" class="well">
+                <div id="fieldContainer">
+                    <div class="form-group">
+                        <label class="control-label">Name</label>
+                        <input type="text" name="name" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Email</label>
+                        <input type="email" name="email" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Message</label>
+                        <textarea name="message" class="form-control"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary" value="Submit" />
+                    <button type="button" class="btn btn-default" id="loadNewFields">Load New Fields</button>
+                </div>
+            </form>
+        </div><!-- #ajaxFieldsExample -->
+
     </div><!-- .container -->
 
     <script src="../bower_components/jquery-legacy/dist/jquery.min.js"></script>

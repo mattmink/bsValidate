@@ -115,4 +115,86 @@ $(function(){
             alert('Success!');
         }
     });
+
+    var ajaxFormConfig = {
+        fields:{
+            name: {
+                required: {
+                    helpText: "Please enter your name.",
+                    alert: "You are required to enter your name."
+                }
+            },
+            email: {
+                required: {
+                    helpText: "Please enter your name.",
+                    alert: "You are required to enter your name."
+                }
+            },
+            message: {
+                required: {
+                    helpText: "Please enter your name.",
+                    alert: "You are required to enter your name."
+                }
+            }
+        },
+        success: function(e){
+            e.preventDefault();
+            alert('Success!');
+        }
+    };
+    initAjaxForm(ajaxFormConfig);
+    $('#ajaxFieldsForm').on('click', '#loadNewFields', function(){
+        console.log('new fields...');
+        var fieldContainer = $('#fieldContainer');
+        var html = [
+            '<div class="form-group">',
+                '<label class="control-label">Home Phone</label>',
+                '<input type="text" name="homePhone" class="form-control" />',
+            '</div>',
+            '<div class="form-group">',
+                '<label class="control-label">Cell Phone</label>',
+                '<input type="text" name="cellPhone" class="form-control" />',
+            '</div>',
+            '<div class="form-group">',
+                '<label class="control-label">Street Address</label>',
+                '<input type="text" name="street" class="form-control" />',
+            '</div>',
+            '<div class="form-group">',
+                '<label class="control-label">Zip Code</label>',
+                '<input type="text" name="zip" class="form-control" />',
+            '</div>'
+        ].join('');
+        fieldContainer.html(html);
+        $('#ajaxFieldsForm').bsValidate('destroy');
+        var updatedConfig = {
+            fields:{
+                cellPhone: {
+                    required: {
+                        helpText: "Please enter your cell phone.",
+                        alert: "You are required to enter your cell phone."
+                    }
+                },
+                street: {
+                    required: {
+                        helpText: "Please enter your street address.",
+                        alert: "You are required to enter your street address."
+                    }
+                },
+                zip: {
+                    required: {
+                        helpText: "Please enter your zip code.",
+                        alert: "You are required to enter your zip code."
+                    }
+                }
+            },
+            success: function(e){
+                e.preventDefault();
+                alert('Success!');
+            }
+        };
+        initAjaxForm(updatedConfig);
+    });
+    function initAjaxForm(config) {
+        $('#ajaxFieldsForm').bsValidate(config);
+    }
 });

@@ -219,7 +219,7 @@
     function Plugin ( element, options ) {
         defaults.alertTarget = $(element);
         this.element = element;
-        this.settings = $.extend( {}, defaults, options );
+        this.settings = $.extend( true, {}, defaults, options );
         this._defaults = defaults;
         this._name = bsValidate;
         this.init();
