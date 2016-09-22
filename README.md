@@ -5,6 +5,7 @@ bsValidate is a lightweight jQuery Plugin that provides basic validation of Twit
 + Character limit
 + Compare two fields
 + Regular Expression
++ Custom function
 
 I plan to build on this list and offer more validation options in the future, so stay tuned!
 
@@ -215,6 +216,14 @@ $('#theForm').bsValidate({
     field: "fieldName",
     helpText: "Use the [name] attribute of the field we're checking against.",
     alert: "This compares the literal string values of the two fields. So '0.1' and '.10' do not match and will not validate."
+  }
+  // Use a custom validation function to evaluate a field value.
+  custom: {
+    fn: function(inputElem){
+      return inputElem.val() !== 'desired value';
+    },
+    helpText: "The input element (jQuery object) is passed into the function."
+    alert: "This can be used for more complex scenarios than the standard options can accommodate. The function needs to return a Boolean value. An expression that evaluates to TRUE will trigger the validation.",
   }
 }
 ```

@@ -1,5 +1,5 @@
 /*!
- * jQuery bsValidate Plugin v1.0.1
+ * jQuery bsValidate Plugin v1.1.0
  * Form Validation for Twitter Bootstrap Forms (https://github.com/matthewjmink/bsValidate)
  * Copyright 2016 Matt Mink
  * Licensed under MIT (https://github.com/matthewjmink/bsValidate/blob/master/LICENSE)
@@ -148,6 +148,17 @@
                                 toggleHelpText(matchTest, fields[key][alertType].helpText, formGroup, 'help-' + alertType);
                             }
                         }
+                        if(fields[key].custom !== undefined){
+                            alertType = 'custom';
+                            styleClass = 'alert-'+styleKey+'-'+alertType;
+                            var customTest = fields[key][alertType].fn(fields[key].el);
+                            errCnt += (bsv.settings.mergeAlerts) ? customTest | 0 : toggleAlert(customTest, fields[key][alertType].alert, bsv.settings.alertTarget, styleClass);
+                            alertMessage += (isList && customTest) ? '<li>'+fields[key][alertType].alert+'</li>' : '';
+                            if(bsv.settings.toggleHelpTextOnSubmit){
+                                toggleHelpText(customTest, fields[key][alertType].helpText, formGroup, 'help-' + alertType);
+                            }
+                        }
+
                     }
                     if(errCnt > 0){
                         formGroup.addClass('has-error');
@@ -227,18 +238,28 @@
 
     function isDependent(fields, key){
         var requiredTest = true;
-        if(fields[key].required.dependency){
-            if(fields[key].required.dependency.isBlank){
-                requiredTest = requiredTest && fieldGroupIsBlank(fields, fields[key].required.dependency.isBlank);
+        var dependency = fields[key].required.dependency;
+        var el = null;
+        if(dependency){
+            if(dependency.isBlank){
+                requiredTest = requiredTest && fieldGroupIsBlank(fields, dependency.isBlank);
             }
-            if(fields[key].required.dependency.isNotBlank){
-                requiredTest = requiredTest && fieldGroupIsNotBlank(fields, fields[key].required.dependency.isNotBlank);
+            if(dependency.isNotBlank){
+                requiredTest = requiredTest && fieldGroupIsNotBlank(fields, dependency.isNotBlank);
             }
-            if(fields[key].required.dependency.equals) {
-                requiredTest = fields[fields[key].required.dependency.equals[0]].el.val() === fields[key].required.dependency.equals[1];
+            if(dependency.equals) {
+                el = fields[dependency.equals[0]].el;
+                if(el.is(':radio')){
+                    el = el.filter(':checked');
+                }
+                requiredTest = el.val() === dependency.equals[1];
             }
-            if(fields[key].required.dependency.doesNotEqual) {
-                requiredTest = fields[fields[key].required.dependency.doesNotEqual[0]].el.val() !== fields[key].required.dependency.doesNotEqual[1];
+            if(dependency.doesNotEqual) {
+                el = fields[dependency.doesNotEqual[0]].el;
+                if(el.is(':radio')){
+                    el = el.filter(':checked');
+                }
+                requiredTest = el.val() !== dependency.doesNotEqual[1];
             }
         }
         return requiredTest;
@@ -372,6 +393,11 @@
             styleClass = 'help-match';
             var matchFieldValue = form.find('[name="'+fields[key].match.field+'"]').val();
             errCnt += toggleHelpText(matchFieldValue !== v && !el.isBlank(bsv), fields[key].match.helpText, formGroup, styleClass);
+        }
+        if(fields[key].custom !== undefined){
+            styleClass = 'help-custom';
+            var customTest = fields[key].custom.fn(fields[key].el);
+            errCnt += toggleHelpText(customTest, fields[key].custom.helpText, formGroup, styleClass);
         }
         if(errCnt > 0){
             formGroup.addClass('has-error');
