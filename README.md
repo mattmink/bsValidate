@@ -149,6 +149,11 @@ $('#theForm').bsValidate({
   // DEFAULT: false (BOOLEAN)
   toggleHelpTextOnSubmit: false,
 
+  // If a field has a dependency, changing the value of the parent field will trigger validation on the child.
+  // Set this property to FALSE if you do not want this behavior.
+  // DEFAULT: true (BOOLEAN)
+  triggerDependentValidationOnChange: true,
+
   // Automatically scroll the page on form submission so the alerts are in view.
   // DEFAULT: true (BOOLEAN)
   autoScrollToAlerts: true,

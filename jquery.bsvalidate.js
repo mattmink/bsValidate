@@ -19,6 +19,7 @@
         blankSelectValue: "",
         novalidate: true,
         toggleHelpTextOnSubmit: false,
+        triggerDependentValidationOnChange: true,
         autoScrollToAlerts: true,
         before: function(){},
         success: function(){},
@@ -354,7 +355,7 @@
         var errCnt = 0;
         var styleClass;
         var v = el.val();
-        if(fields[key].hasDependency !== undefined){
+        if(fields[key].hasDependency !== undefined && bsv.settings.triggerDependentValidationOnChange){
             var depFields = fields[key].hasDependency.split(',');
             if(depFields.length > 1 || fields[depFields[0]].el[0] !== event.relatedTarget) {
                 for (var i = 0; i < depFields.length; i++) {
