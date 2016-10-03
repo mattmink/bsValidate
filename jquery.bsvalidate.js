@@ -1,5 +1,5 @@
 /*!
- * jQuery bsValidate Plugin v1.1.0
+ * jQuery bsValidate Plugin v1.2.0
  * Form Validation for Twitter Bootstrap Forms (https://github.com/matthewjmink/bsValidate)
  * Copyright 2016 Matt Mink
  * Licensed under MIT (https://github.com/matthewjmink/bsValidate/blob/master/LICENSE)
@@ -121,7 +121,9 @@
                         if(fields[key].characters !== undefined){
                             alertType = 'characters';
                             styleClass = 'alert-'+styleKey+'-'+alertType;
-                            var charactersTest = v.length > fields[key][alertType].limit;
+                            var max = fields[key][alertType].max || v.length;
+                            var min = fields[key][alertType].min || 0;
+                            var charactersTest = v.length > max || v.length < min;
                             errCnt += (bsv.settings.mergeAlerts) ? charactersTest | 0 : toggleAlert(charactersTest, fields[key][alertType].alert, bsv.settings.alertTarget, styleClass);
                             alertMessage += (isList && charactersTest) ? '<li>'+fields[key][alertType].alert+'</li>' : '';
                             if(bsv.settings.toggleHelpTextOnSubmit){
@@ -384,7 +386,10 @@
         }
         if(fields[key].characters !== undefined){
             styleClass = 'help-characters';
-            errCnt += toggleHelpText(v.length > fields[key].characters.limit, fields[key].characters.helpText, formGroup, styleClass);
+            var max = fields[key].characters.max || v.length;
+            var min = fields[key].characters.min || 0;
+            var charactersTest = v.length > max || v.length < min;
+            errCnt += toggleHelpText(charactersTest, fields[key].characters.helpText, formGroup, styleClass);
         }
         if(fields[key].regex !== undefined){
             styleClass = 'help-regex';

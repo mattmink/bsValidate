@@ -57,6 +57,13 @@ $(function(){
                     helpText: "This doesn't look like a real URL",
                     alert: "Please enter an actual website address."
                 }
+            },
+            message: {
+                characters: {
+                    max: 100,
+                    helpText: "No more than 100 characters, please",
+                    alert: "Your message is too long!"
+                }
             }
         },
         before: function(){
