@@ -1,5 +1,5 @@
 /*!
- * jQuery bsValidate Plugin v1.2.0
+ * jQuery bsValidate Plugin v1.2.1
  * Form Validation for Twitter Bootstrap Forms (https://github.com/matthewjmink/bsValidate)
  * Copyright 2016 Matt Mink
  * Licensed under MIT (https://github.com/matthewjmink/bsValidate/blob/master/LICENSE)
@@ -357,58 +357,75 @@
         var errCnt = 0;
         var styleClass;
         var v = el.val();
-        if(fields[key].hasDependency !== undefined && bsv.settings.triggerDependentValidationOnChange){
-            var depFields = fields[key].hasDependency.split(',');
-            if(depFields.length > 1 || fields[depFields[0]].el[0] !== event.relatedTarget) {
-                for (var i = 0; i < depFields.length; i++) {
-                    var depRequiredTest = fields[depFields[i]].el.isBlank(bsv);
-                    var depFormGroup = fields[depFields[i]].el.parents('.form-group');
-                    styleClass = 'help-required';
-                    depRequiredTest = depRequiredTest && isDependent(fields, depFields[i]);
-                    var hasError = toggleHelpText(depRequiredTest, fields[depFields[i]].required.helpText, depFormGroup, styleClass);
-                    if(hasError) {
-                        depFormGroup.addClass('has-error');
-                    } else {
-                        depFormGroup.removeClass('has-error');
+        if(el.is(':radio')){
+            setTimeout(function() {
+                var isInFocus = false;
+                fields[key].el.each(function(){
+                    if($(this).is(':focus')){
+                        isInFocus = true;
+                    }
+                });
+                if(!isInFocus){
+                    doOnChangeValidation();
+                }
+            }, 10);
+        } else {
+            doOnChangeValidation();
+        }
+        function doOnChangeValidation() {
+            if(fields[key].hasDependency !== undefined && bsv.settings.triggerDependentValidationOnChange){
+                var depFields = fields[key].hasDependency.split(',');
+                if(depFields.length > 1 || fields[depFields[0]].el[0] !== event.relatedTarget) {
+                    for (var i = 0; i < depFields.length; i++) {
+                        var depRequiredTest = fields[depFields[i]].el.isBlank(bsv);
+                        var depFormGroup = fields[depFields[i]].el.parents('.form-group');
+                        styleClass = 'help-required';
+                        depRequiredTest = depRequiredTest && isDependent(fields, depFields[i]);
+                        var hasError = toggleHelpText(depRequiredTest, fields[depFields[i]].required.helpText, depFormGroup, styleClass);
+                        if(hasError) {
+                            depFormGroup.addClass('has-error');
+                        } else {
+                            depFormGroup.removeClass('has-error');
+                        }
                     }
                 }
             }
-        }
-        if(fields[key].required !== undefined){
-            var requiredTest = fields[key].el.isBlank(bsv);
-            styleClass = 'help-required';
-            requiredTest = requiredTest && isDependent(fields, key);
-            errCnt += toggleHelpText(requiredTest, fields[key].required.helpText, formGroup, styleClass);
-        }
-        if(fields[key].email !== undefined){
-            styleClass = 'help-email';
-            errCnt += toggleHelpText(!isValidEmail(v) && v !== "", fields[key].email.helpText, formGroup, styleClass);
-        }
-        if(fields[key].characters !== undefined){
-            styleClass = 'help-characters';
-            var max = fields[key].characters.max || v.length;
-            var min = fields[key].characters.min || 0;
-            var charactersTest = v.length > max || v.length < min;
-            errCnt += toggleHelpText(charactersTest, fields[key].characters.helpText, formGroup, styleClass);
-        }
-        if(fields[key].regex !== undefined){
-            styleClass = 'help-regex';
-            errCnt += toggleHelpText(!regexMatch(fields[key].regex.pattern, v) && !el.isBlank(bsv), fields[key].regex.helpText, formGroup, styleClass);
-        }
-        if(fields[key].match !== undefined){
-            styleClass = 'help-match';
-            var matchFieldValue = form.find('[name="'+fields[key].match.field+'"]').val();
-            errCnt += toggleHelpText(matchFieldValue !== v && !el.isBlank(bsv), fields[key].match.helpText, formGroup, styleClass);
-        }
-        if(fields[key].custom !== undefined){
-            styleClass = 'help-custom';
-            var customTest = fields[key].custom.fn(fields[key].el);
-            errCnt += toggleHelpText(customTest, fields[key].custom.helpText, formGroup, styleClass);
-        }
-        if(errCnt > 0){
-            formGroup.addClass('has-error');
-        }else{
-            formGroup.removeClass('has-error');
+            if(fields[key].required !== undefined){
+                var requiredTest = fields[key].el.isBlank(bsv);
+                styleClass = 'help-required';
+                requiredTest = requiredTest && isDependent(fields, key);
+                errCnt += toggleHelpText(requiredTest, fields[key].required.helpText, formGroup, styleClass);
+            }
+            if(fields[key].email !== undefined){
+                styleClass = 'help-email';
+                errCnt += toggleHelpText(!isValidEmail(v) && v !== "", fields[key].email.helpText, formGroup, styleClass);
+            }
+            if(fields[key].characters !== undefined){
+                styleClass = 'help-characters';
+                var max = fields[key].characters.max || v.length;
+                var min = fields[key].characters.min || 0;
+                var charactersTest = v.length > max || v.length < min;
+                errCnt += toggleHelpText(charactersTest, fields[key].characters.helpText, formGroup, styleClass);
+            }
+            if(fields[key].regex !== undefined){
+                styleClass = 'help-regex';
+                errCnt += toggleHelpText(!regexMatch(fields[key].regex.pattern, v) && !el.isBlank(bsv), fields[key].regex.helpText, formGroup, styleClass);
+            }
+            if(fields[key].match !== undefined){
+                styleClass = 'help-match';
+                var matchFieldValue = form.find('[name="'+fields[key].match.field+'"]').val();
+                errCnt += toggleHelpText(matchFieldValue !== v && !el.isBlank(bsv), fields[key].match.helpText, formGroup, styleClass);
+            }
+            if(fields[key].custom !== undefined){
+                styleClass = 'help-custom';
+                var customTest = fields[key].custom.fn(fields[key].el);
+                errCnt += toggleHelpText(customTest, fields[key].custom.helpText, formGroup, styleClass);
+            }
+            if(errCnt > 0){
+                formGroup.addClass('has-error');
+            }else{
+                formGroup.removeClass('has-error');
+            }
         }
     }
 
