@@ -137,6 +137,30 @@
             </form>
         </div><!-- #ajaxFieldsExample -->
 
+        <div id="noFormGroupClassExample" class="section">
+            <h2>Dynamic Fields (Ajax)</h2>
+            <form id="noFormGroupClassForm" action="success.html" method="post" class="well">
+                This example uses a class other than <code>.form-group</code> to contain the fields. In a case
+                like this, use the <code>formGroupSelector</code> property to specify the class or element that
+                should be used as the field's parent container.
+                <div class="not-a-form-group">
+                    <label class="control-label">Name</label>
+                    <input type="text" data-fieldname="name1" name="name" class="form-control" />
+                </div>
+                <div class="not-a-form-group">
+                    <label class="control-label">Email</label>
+                    <input type="email" data-fieldname="email1" name="email" class="form-control" />
+                </div>
+                <div class="not-a-form-group">
+                    <label class="control-label">Message</label>
+                    <textarea name="message" data-fieldname="message1" class="form-control"></textarea>
+                </div>
+                <div class="not-a-form-group">
+                    <input type="submit" class="btn btn-primary" value="Submit" />
+                </div>
+            </form>
+        </div><!-- #noFormGroupClassExample -->
+
     </div><!-- .container -->
 
     <script src="../bower_components/jquery-legacy/dist/jquery.min.js"></script>

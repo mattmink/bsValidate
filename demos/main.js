@@ -204,4 +204,45 @@ $(function(){
     function initAjaxForm(config) {
         $('#ajaxFieldsForm').bsValidate(config);
     }
+
+
+
+    var noFormGroupClassForm = $('#noFormGroupClassForm');
+    // Custom Messages
+    noFormGroupClassForm.bsValidate({
+        formGroupSelector: '.not-a-form-group',
+        attrAsKey: 'data-fieldname',
+        fields:{
+            name1: {
+                required: {
+                    helpText: "Please enter your name.",
+                    alert: "You are required to enter your name."
+                }
+            },
+            email1: {
+                required: {
+                    helpText: "Please enter your email.",
+                    alert: "You are required to enter your email."
+                },
+                email: {
+                    helpText: "This doesn't look like a valid email.",
+                    alert: "Please enter a valid email address."
+                }
+            },
+            message1: {
+                required: {
+                    helpText: "You forgot to write!",
+                    alert: "Please enter a message"
+                }
+            }
+        },
+        before: function(){
+            noFormGroupClassForm.find('.alert').remove();
+            console.log(this);
+        },
+        success: function(e){
+            e.preventDefault();
+            alert('Success!');
+        }
+    });
 });

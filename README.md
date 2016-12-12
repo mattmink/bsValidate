@@ -11,7 +11,7 @@ I plan to build on this list and offer more validation options in the future, so
 
 ## Prerequisites
 #### JS
-+ jQuery (minimum version requirement pending...)
++ jQuery
 
 #### CSS
 + Bootstrap (not a requirement if you plan to include your own styles that use the same classes)
@@ -68,7 +68,7 @@ JavaScript
 ```
 
 #### Advanced Use
-Alternatively, a `fields` object can be specified in place of (or in addition to) element attributes to list the fields that should be validated, along with the validation requirements. The `[name]` attribute is used as the key name for each field.
+Alternatively, a `fields` object can be specified in place of (or in addition to) element attributes to list the fields that should be validated, along with the validation requirements. The `[name]` attribute is used as the key name for each field, unless the `formGroupSelector` property is specified.
 
 HTML
 ```html
@@ -128,6 +128,14 @@ $('#theForm').bsValidate({
   // A jQuery selector used to determine which fields should be required.
   // DEFAULT: "input.required,textarea.required,select.required,[required]" (STRING)
   requiredSelector: "",
+  
+  // Determines which attribute should be used to identify the form elements from the {fields} object.
+  // DEFAULT: "name" (STRING)
+  attrAsKey: "",
+
+  // A jQuery selector used to identify the parent element for each field.
+  // DEFAULT: ".form-group" (STRING)
+  formGroupSelector: "",
 
   // For <select> fields, change what the plugin considers as "blank" (i.e. "-- Select --")
   // DEFAULT: "" (STRING)

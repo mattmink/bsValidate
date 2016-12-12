@@ -14,6 +14,8 @@
     defaults = {
         requiredSelector: "input.required,textarea.required,select.required,[required]",
         fields: {},
+        formGroupSelector: '.form-group',
+        attrAsKey: 'name',
         mergeAlerts: false,
         alertMessage: null,
         blankSelectValue: "",
@@ -40,9 +42,9 @@
             }
 
             required.each(function(){
-                var name = $(this).attr('name');
+                var name = $(this).attr(bsv.settings.attrAsKey);
                 if(fields[name] === undefined || fields[name].required === undefined){
-                    var formGroup = $(this).parents('.form-group');
+                    var formGroup = $(this).closest(bsv.settings.formGroupSelector);
                     var label = formGroup.find('.label,label').text();
                     fields[name] = (fields[name] === undefined) ? {} : fields[name];
                     fields[name].el = $(this);
@@ -54,7 +56,7 @@
 
             $.each( fields, function( key, value ) {
                 if(typeof fields[key].el !== "object" || fields[key].el.jquery === undefined){
-                    fields[key].el = form.find('[name="'+key+'"]');
+                    fields[key].el = form.find('['+bsv.settings.attrAsKey+'="'+key+'"]');
                 }
                 if(fields[key].required && fields[key].required.dependency){
                     $.each( fields[key].required.dependency, function( depKey, depValue ) {
@@ -62,7 +64,7 @@
                         for (var i = 0; i < depFields.length; i++) {
                             if(!fields[depFields[i]]) {
                                 fields[depFields[i]] = {
-                                    el: form.find('[name="'+depFields[i]+'"]')
+                                    el: form.find('['+bsv.settings.attrAsKey+'="'+depFields[i]+'"]')
                                 };
                                 fields[depFields[i]].el.on('blur', {bsv:bsv, fields:fields, key:depFields[i], value:fields[depFields[i]]} , bsvFieldChange);
                             }
@@ -92,7 +94,7 @@
                 }
                 $.each( fields, function( key, value ) {
                     var styleClass, alertType;
-                    var formGroup = fields[key].el.parents('.form-group');
+                    var formGroup = fields[key].el.closest(bsv.settings.formGroupSelector);
                     var errCnt = 0;
                     var v = fields[key].el.val();
                     var styleKey = key.replace(/[^a-zA-Z\d-]/g, '-');
@@ -353,7 +355,7 @@
         var el = $(event.target);
         var fields = data.fields;
         var key = data.key;
-        var formGroup = el.parents('.form-group');
+        var formGroup = el.closest(bsv.settings.formGroupSelector);
         var errCnt = 0;
         var styleClass;
         var v = el.val();
@@ -378,7 +380,7 @@
                 if(depFields.length > 1 || fields[depFields[0]].el[0] !== event.relatedTarget) {
                     for (var i = 0; i < depFields.length; i++) {
                         var depRequiredTest = fields[depFields[i]].el.isBlank(bsv);
-                        var depFormGroup = fields[depFields[i]].el.parents('.form-group');
+                        var depFormGroup = fields[depFields[i]].el.closest(bsv.settings.formGroupSelector);
                         styleClass = 'help-required';
                         depRequiredTest = depRequiredTest && isDependent(fields, depFields[i]);
                         var hasError = toggleHelpText(depRequiredTest, fields[depFields[i]].required.helpText, depFormGroup, styleClass);
